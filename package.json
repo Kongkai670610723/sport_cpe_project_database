@@ -1,0 +1,23 @@
+{
+  "name": "sport-cpe-app",
+  "version": "1.0.0",
+  "description": "SPORT.CPE E-Commerce Mini Web Application for 261342 Database Systems Term Project",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "serve": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "cpe",
+    "database",
+    "e-commerce",
+    "laravel",
+    "tailwind"
+  ],
+  "author": "ณภัทร จิตเจริญ, ภูรินท์ อินทจักร์, วรภพ เกิดทองสุก",
+  "license": "MIT",
+  "dependencies": {
+    "mysql2": "^3.24.6"
+  }
+}

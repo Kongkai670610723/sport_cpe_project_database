@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Products Page — SPORT.CPE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-[#f1f5f9] min-h-screen flex flex-col">
+
+    
+    <header class="bg-[#0b1329] text-white">
+        <div class="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-2 font-black text-xl tracking-wider text-white hover:opacity-90 italic">
+                <img src="images/logo_sport_cpe.png" alt="SPORT.CPE Logo" class="w-9 h-9 object-contain shrink-0"> SPORT.CPE
+            </a>
+
+            <div class="flex-1 max-w-[500px] hidden md:block">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="global-search-input"
+                        placeholder="Search equipment, shoes, gear..." 
+                        class="w-full bg-[#1e293b] text-white placeholder-slate-400 text-xs rounded-lg pl-9 pr-4 py-2.5 border border-slate-700 focus:outline-none focus:border-[#ff6b00]"
+                        onkeydown="if(event.key==='Enter'){ window.location.href='products.html?search='+encodeURIComponent(this.value); }"
+                    >
+                    <span class="absolute left-3 top-2.5 text-xs text-slate-400">🔍</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="cart.html" class="flex items-center gap-2 bg-[#22c55e] hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition shadow-sm">
+                    <span>🛒 Cart (<span id="cart-badge-count">3</span>)</span>
+                </a>
+                <div id="nav-auth-area" class="flex items-center gap-2"><a href="login.html" class="flex items-center gap-1.5 border border-slate-400 hover:border-white px-4 py-1.5 rounded-lg text-xs font-semibold text-white transition"><span>👤 Login</span></a></div>
+            </div>
+        </div>
+
+        <nav class="border-t border-slate-800 text-xs font-medium">
+            <div class="max-w-[1280px] mx-auto px-6 flex items-center gap-8 h-11 overflow-x-auto whitespace-nowrap" id="main-cat-nav">
+                
+                  <a href="index.html" data-cat="home" class="py-2.5 transition text-slate-300 hover:text-white">Home</a>
+                
+                  <a href="products.html?category=running" data-cat="running" class="py-2.5 transition text-slate-300 hover:text-white">Running</a>
+                
+                  <a href="products.html?category=badminton" data-cat="badminton" class="py-2.5 transition text-[#ff6b00] font-bold border-b-2 border-[#ff6b00]">Badminton</a>
+                
+                  <a href="products.html?category=basketball" data-cat="basketball" class="py-2.5 transition text-slate-300 hover:text-white">Basketball</a>
+                
+                  <a href="products.html?category=football" data-cat="football" class="py-2.5 transition text-slate-300 hover:text-white">Football</a>
+                
+                  <a href="products.html?category=swim" data-cat="swim" class="py-2.5 transition text-slate-300 hover:text-white">Swim</a>
+                
+                  <a href="products.html?category=fitness" data-cat="fitness" class="py-2.5 transition text-slate-300 hover:text-white">Fitness</a>
+                
+                  <a href="products.html?category=camping" data-cat="camping" class="py-2.5 transition text-slate-300 hover:text-white">Camping</a>
+                
+                  <a href="products.html?category=volleyball" data-cat="volleyball" class="py-2.5 transition text-slate-300 hover:text-white">Volleyball</a>
+                
+            </div>
+        </nav>
+    </header>
+  
+
+    <main class="max-w-[1040px] w-full mx-auto px-6 py-8 flex-1">
+        <!-- Category Header Row Matching Figma Frame 2 -->
+        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+            <div>
+                <h1 class="text-xl font-bold text-slate-900" id="cat-heading">
+                    Badminton Equipment <span class="font-normal text-slate-600 text-lg">(16 items)</span>
+                </h1>
+                <p id="cat-description" class="text-xs text-slate-500 font-medium mt-1">ไม้แบดมินตัน ลูกขนไก่ เอ็น กริป และกระเป๋าแบดมินตันเกรดแข่งขัน</p>
+            </div>
+
+            <div class="flex items-center gap-5 text-xs">
+                <div class="flex items-center gap-2">
+                    <span class="text-slate-600 font-medium">Sort by:</span>
+                    <select id="sort-select" onchange="renderCategoryPage(1)" class="bg-white border border-slate-300 rounded-md px-3 py-1.5 font-medium text-slate-800 focus:outline-none">
+                        <option value="default">Featured (Default)</option>
+                        <option value="asc">Price (Low to High)</option>
+                        <option value="desc">Price (High to Low)</option>
+                    </select>
+                </div>
+
+                <label class="flex items-center gap-2 cursor-pointer select-none">
+                    <input type="checkbox" id="promo-toggle" onchange="renderCategoryPage(1)" class="sr-only peer">
+                    <div class="w-9 h-5 bg-slate-300 peer-checked:bg-[#ff6b00] rounded-full relative transition after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition peer-checked:after:translate-x-4"></div>
+                    <span class="text-slate-700 font-medium">Buy 2 Get 1 Free Eligible</span>
+                </label>
+            </div>
+        </div>
+
+        <!-- 12 Product Cards Grid with Dark Navy Add to Cart Button (Matching Figma Frame 2) -->
+        <div id="category-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        </div>
+
+        <!-- Category Pagination (Page [1] 2 Next ->) -->
+        <div id="category-pagination" class="flex items-center justify-center gap-3 text-sm text-slate-800 font-semibold py-4 select-none">
+        </div>
+    </main>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      const CAT_ITEMS_PER_PAGE = 12;
+      const params = new URLSearchParams(window.location.search);
+      const currentCategorySlug = (params.get('category') || 'badminton').toLowerCase();
+      const searchQuery = (params.get('search') || '').trim().toLowerCase();
+      let currentCatPage = parseInt(params.get('page'), 10) || 1;
+
+      // Highlight active category in navbar
+      document.querySelectorAll('#main-cat-nav a').forEach(a => {
+        const slug = a.getAttribute('data-cat');
+        if (!searchQuery && slug === currentCategorySlug) {
+          a.className = 'py-2.5 transition text-[#ff6b00] font-bold border-b-2 border-[#ff6b00]';
+        } else {
+          a.className = 'py-2.5 transition text-slate-300 hover:text-white';
+        }
+      });
+
+      // Exact Figma Frame 2 ordering for Badminton Page 1 (12 items)
+      const BADMINTON_FIGMA_ORDER = [17, 18, 23, 20, 25, 27, 28, 30, 21, 22, 24, 26, 19, 29, 31, 32];
+
+      function getFilteredProducts() {
+        let list = [];
+        if (searchQuery) {
+          list = PRODUCTS_DB.filter(p =>
+            p.name.toLowerCase().includes(searchQuery) ||
+            p.brand.toLowerCase().includes(searchQuery) ||
+            p.category_en.toLowerCase().includes(searchQuery)
+          );
+        } else if (currentCategorySlug === 'badminton') {
+          list = BADMINTON_FIGMA_ORDER.map(id => PRODUCTS_DB.find(p => p.id === id)).filter(Boolean);
+        } else {
+          list = PRODUCTS_DB.filter(p => p.category_slug === currentCategorySlug);
+        }
+
+        const onlyPromo = document.getElementById('promo-toggle').checked;
+        if (onlyPromo) {
+          list = list.filter(p => STATE.isBuy2Get1Eligible(p.id));
+        }
+
+        const sortMode = document.getElementById('sort-select').value;
+        if (sortMode === 'asc') {
+          list = [...list].sort((a, b) => a.price - b.price);
+        } else if (sortMode === 'desc') {
+          list = [...list].sort((a, b) => b.price - a.price);
+        }
+        return list;
+      }
+
+      function renderCategoryPage(page) {
+        const list = getFilteredProducts();
+        const totalPages = Math.max(1, Math.ceil(list.length / CAT_ITEMS_PER_PAGE));
+        currentCatPage = Math.max(1, Math.min(totalPages, page));
+
+        const catObj = CATEGORIES_DB.find(c => c.slug === currentCategorySlug);
+        const headingEl = document.getElementById('cat-heading');
+        const descEl = document.getElementById('cat-description');
+        if (searchQuery) {
+          headingEl.innerHTML = `Search Results for "${searchQuery}" <span class="font-normal text-slate-600 text-lg">(${list.length} items)</span>`;
+          if (descEl) descEl.textContent = `ผลการค้นหาสินค้าจากฐานข้อมูลสำหรับคำว่า "${searchQuery}"`;
+        } else {
+          const catTitle = catObj ? catObj.enName : 'Badminton';
+          headingEl.innerHTML = `${catTitle} Equipment <span class="font-normal text-slate-600 text-lg">(${list.length} items)</span>`;
+          const liveCat = (window.__LIVE_MYSQL_DB__ && Array.isArray(window.__LIVE_MYSQL_DB__.categories) && catObj)
+            ? window.__LIVE_MYSQL_DB__.categories.find(c => Number(c.category_id) === Number(catObj.id))
+            : null;
+          if (descEl) descEl.textContent = (liveCat && liveCat.description) ? liveCat.description : (catObj && catObj.description ? catObj.description : '');
+        }
+
+        const startIdx = (currentCatPage - 1) * CAT_ITEMS_PER_PAGE;
+        const pageItems = list.slice(startIdx, startIdx + CAT_ITEMS_PER_PAGE);
+
+        const grid = document.getElementById('category-products-grid');
+        grid.innerHTML = pageItems.map(p => `
+          <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+              <a href="product-detail.html?id=${p.id}" class="block group">
+                  <div class="h-40 rounded-xl bg-white flex items-center justify-center p-2 mb-3 overflow-hidden">
+                      <img src="${p.image}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-200">
+                  </div>
+                  <div class="mb-2 min-h-[20px]">
+                      ${STATE.isBuy2Get1Eligible(p.id) ? '<span class="inline-block bg-[#dcfce7] text-[#166534] border border-green-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full">🎁 Buy 2 Get 1 Free</span>' : ''}
+                  </div>
+                  <h3 class="font-medium text-slate-900 text-sm mb-3 leading-snug min-h-[40px] group-hover:text-[#ff6b00] transition">${p.name}</h3>
+              </a>
+              <div class="flex items-center justify-between pt-1">
+                  <span class="font-bold text-slate-900 text-sm">${p.price.toLocaleString()} Baht</span>
+                  <button onclick="STATE.addToCart(${p.id})" class="bg-[#0f172a] hover:bg-slate-800 text-white font-semibold px-3.5 py-1.5 rounded-lg text-xs transition">
+                      Add to Cart
+                  </button>
+              </div>
+          </div>
+        `).join('');
+
+        // Render Category Pagination
+        const pagEl = document.getElementById('category-pagination');
+        let pagHtml = '';
+        if (currentCatPage > 1) {
+          pagHtml += `<button onclick="renderCategoryPage(${currentCatPage - 1})" class="hover:text-black font-bold">← Prev</button>`;
+        }
+        pagHtml += `<span class="text-slate-500 font-medium">Page</span>`;
+        for (let i = 1; i <= totalPages; i++) {
+          if (i === currentCatPage) {
+            pagHtml += `<button onclick="renderCategoryPage(${i})" class="w-7 h-7 rounded bg-[#0b1329] text-white font-bold flex items-center justify-center">${i}</button>`;
+          } else {
+            pagHtml += `<button onclick="renderCategoryPage(${i})" class="px-2 py-0.5 rounded hover:bg-slate-200 text-slate-800 font-semibold">${i}</button>`;
+          }
+        }
+        if (currentCatPage < totalPages) {
+          pagHtml += `<button onclick="renderCategoryPage(${currentCatPage + 1})" class="hover:text-black ml-1 flex items-center gap-1 font-bold">Next →</button>`;
+        }
+        pagEl.innerHTML = pagHtml;
+      }
+
+      renderCategoryPage(currentCatPage);
+    </script>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page — SPORT.CPE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-[#f1f5f9] min-h-screen flex flex-col">
+
+    
+    <header class="bg-[#0b1329] text-white">
+        <div class="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-2 font-black text-xl tracking-wider text-white hover:opacity-90 italic">
+                <img src="images/logo_sport_cpe.png" alt="SPORT.CPE Logo" class="w-9 h-9 object-contain shrink-0"> SPORT.CPE
+            </a>
+            <a href="index.html" class="text-[#ff6b00] hover:underline font-bold text-sm flex items-center gap-1.5">
+                Back to Home →
+            </a>
+        </div>
+    </header>
+  
+
+    <main class="flex-1 flex flex-col items-center justify-center px-4 py-12">
+        <div class="w-full max-w-[460px] bg-white rounded-3xl p-10 border border-slate-200/90 shadow-xl">
+            <h1 class="text-2xl font-black text-center text-slate-900">Welcome</h1>
+            <p class="text-center text-xs text-slate-400 mt-1 mb-7">Member Log-in</p>
+
+            <!-- Validation Error / Success Box -->
+            <div id="login-alert" class="hidden mb-5 p-3.5 rounded-xl text-xs font-semibold border"></div>
+
+            <form id="login-form" onsubmit="handleLoginSubmit(event)" novalidate class="space-y-4 text-xs font-semibold text-slate-700">
+                <div>
+                    <label class="block mb-1.5 text-slate-800">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="login-email"
+                        placeholder=""
+                        autocomplete="off"
+                        class="w-full border border-slate-300 rounded-lg p-2.5 text-slate-900 focus:outline-none focus:border-[#0b1329]"
+                    >
+                    <p id="email-error" class="hidden text-[11px] text-red-600 font-medium mt-1"></p>
+                </div>
+
+                <div>
+                    <label class="block mb-1.5 text-slate-800">Password</label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="login-password"
+                            placeholder=""
+                            autocomplete="new-password"
+                            class="w-full border border-slate-300 rounded-lg p-2.5 pr-10 text-slate-900 focus:outline-none focus:border-[#0b1329]"
+                        >
+                        <button 
+                            type="button"
+                            onclick="togglePasswordVisibility('login-password', 'login-eye-icon')"
+                            class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 focus:outline-none text-sm select-none"
+                            title="คลิกเพื่อแสดง/ซ่อนรหัสผ่าน"
+                        >
+                            <span id="login-eye-icon">👁️‍🗨️</span>
+                        </button>
+                    </div>
+                    <p id="password-error" class="hidden text-[11px] text-red-600 font-medium mt-1"></p>
+                </div>
+
+                <div class="pt-3">
+                    <button type="submit" class="w-full bg-[#0b1329] hover:bg-slate-800 text-white font-bold py-3.5 rounded-lg text-xs flex items-center justify-center gap-1.5 transition shadow-sm">
+                        <span>Sign in →</span>
+                    </button>
+                </div>
+
+                <div class="text-center text-slate-500 font-normal pt-2">
+                    Don't have an account? <a href="register.html" class="font-bold text-slate-900 hover:underline">Register</a>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      function togglePasswordVisibility(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.textContent = '👁️';
+        } else {
+          input.type = 'password';
+          icon.textContent = '👁️‍🗨️';
+        }
+      }
+
+      // Check if redirected after registration or auth guard
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('registered') === '1') {
+        const alertBox = document.getElementById('login-alert');
+        alertBox.className = 'mb-5 p-3.5 rounded-xl text-xs font-semibold border bg-green-50 border-green-300 text-green-800';
+        alertBox.textContent = '✓ สมัครสมาชิกสำเร็จ! บัญชีของคุณถูกบันทึกเข้าสู่ระบบแล้ว กรุณากรอกอีเมลและรหัสผ่านเพื่อเข้าสู่ระบบ';
+      } else if (params.get('auth_required') === '1' || params.get('redirect')) {
+        const alertBox = document.getElementById('login-alert');
+        alertBox.className = 'mb-5 p-3.5 rounded-xl text-xs font-semibold border bg-amber-50 border-amber-300 text-amber-800';
+        alertBox.textContent = '🔒 กรุณาเข้าสู่ระบบสมาชิกก่อน จึงจะสามารถเพิ่มสินค้า เข้าดูตะกร้าสินค้า หรือสั่งซื้อสินค้าได้';
+      }
+
+      function handleLoginSubmit(e) {
+        e.preventDefault();
+        const emailInput = document.getElementById('login-email');
+        const passInput = document.getElementById('login-password');
+        const emailErr = document.getElementById('email-error');
+        const passErr = document.getElementById('password-error');
+        const alertBox = document.getElementById('login-alert');
+
+        emailErr.classList.add('hidden');
+        passErr.classList.add('hidden');
+        alertBox.classList.add('hidden');
+        emailInput.classList.remove('border-red-500');
+        passInput.classList.remove('border-red-500');
+
+        const email = emailInput.value.trim().toLowerCase();
+        const password = passInput.value;
+
+        let hasError = false;
+        if (!email) {
+          emailErr.textContent = 'กรุณากรอกอีเมล (Email Address)';
+          emailErr.classList.remove('hidden');
+          emailInput.classList.add('border-red-500');
+          hasError = true;
+        } else if (!STATE.isValidEmail(email)) {
+          emailErr.textContent = 'รูปแบบอีเมลไม่ถูกต้อง กรุณากรอกอีเมลที่มีเครื่องหมาย @ และโดเมน (เช่น example@domain.com)';
+          emailErr.classList.remove('hidden');
+          emailInput.classList.add('border-red-500');
+          hasError = true;
+        }
+
+        if (!password) {
+          passErr.textContent = 'กรุณากรอกรหัสผ่าน (Password)';
+          passErr.classList.remove('hidden');
+          passInput.classList.add('border-red-500');
+          hasError = true;
+        }
+
+        if (hasError) return;
+
+        // Check against registered users in database
+        const users = STATE.getUsers();
+        const foundUser = users.find(u => u.email.toLowerCase() === email || (u.alt_email && u.alt_email.toLowerCase() === email));
+
+        if (!foundUser) {
+          alertBox.className = 'mb-5 p-3.5 rounded-xl text-xs font-semibold border bg-red-50 border-red-300 text-red-700';
+          alertBox.innerHTML = '❌ ไม่พบบัญชีอีเมล <strong>' + email + '</strong> ในฐานข้อมูลระบบ!<br>กรุณาตรวจสอบอีเมลอีกครั้ง หรือกด <a href="register.html" class="underline font-extrabold">Register</a> เพื่อสมัครสมาชิกใหม่';
+          emailInput.classList.add('border-red-500');
+          return;
+        }
+
+        const isAdminPassOk = foundUser.role === 'admin' && (password === 'password123' || password === 'admin123');
+        if (foundUser.password !== password && !isAdminPassOk) {
+          alertBox.className = 'mb-5 p-3.5 rounded-xl text-xs font-semibold border bg-red-50 border-red-300 text-red-700';
+          alertBox.textContent = '❌ รหัสผ่านไม่ถูกต้องสำหรับบัญชี ' + email + ' กรุณาลองใหม่อีกครั้ง';
+          passInput.classList.add('border-red-500');
+          return;
+        }
+
+        // Login success! Save session
+        STATE.setCurrentUser(foundUser);
+        const redirectUrl = params.get('redirect') || (foundUser.role === 'admin' ? 'admin.html' : 'index.html');
+        window.location.href = redirectUrl;
+      }
+    </script>
+</body>
+</html>

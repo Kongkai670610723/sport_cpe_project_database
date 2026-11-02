@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HomePage — SPORT.CPE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body { font-family: 'Inter', sans-serif; background-color: #0b1329; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+    <!-- Top Dark Navy Section Containing Navbar AND Decorative Hero Banner -->
+    <div class="bg-[#0b1329] text-white pb-10">
+        
+    <header class="bg-[#0b1329] text-white">
+        <div class="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-2 font-black text-xl tracking-wider text-white hover:opacity-90 italic">
+                <img src="images/logo_sport_cpe.png" alt="SPORT.CPE Logo" class="w-9 h-9 object-contain shrink-0"> SPORT.CPE
+            </a>
+
+            <div class="flex-1 max-w-[500px] hidden md:block">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="global-search-input"
+                        placeholder="Search equipment, shoes, gear..." 
+                        class="w-full bg-[#1e293b] text-white placeholder-slate-400 text-xs rounded-lg pl-9 pr-4 py-2.5 border border-slate-700 focus:outline-none focus:border-[#ff6b00]"
+                        onkeydown="if(event.key==='Enter'){ window.location.href='products.html?search='+encodeURIComponent(this.value); }"
+                    >
+                    <span class="absolute left-3 top-2.5 text-xs text-slate-400">🔍</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="cart.html" class="flex items-center gap-2 bg-[#22c55e] hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition shadow-sm">
+                    <span>🛒 Cart (<span id="cart-badge-count">3</span>)</span>
+                </a>
+                <div id="nav-auth-area" class="flex items-center gap-2"><a href="login.html" class="flex items-center gap-1.5 border border-slate-400 hover:border-white px-4 py-1.5 rounded-lg text-xs font-semibold text-white transition"><span>👤 Login</span></a></div>
+            </div>
+        </div>
+
+        <nav class="border-t border-slate-800 text-xs font-medium">
+            <div class="max-w-[1280px] mx-auto px-6 flex items-center gap-8 h-11 overflow-x-auto whitespace-nowrap" id="main-cat-nav">
+                
+                  <a href="index.html" data-cat="home" class="py-2.5 transition text-[#ff6b00] font-bold border-b-2 border-[#ff6b00]">Home</a>
+                
+                  <a href="products.html?category=running" data-cat="running" class="py-2.5 transition text-slate-300 hover:text-white">Running</a>
+                
+                  <a href="products.html?category=badminton" data-cat="badminton" class="py-2.5 transition text-slate-300 hover:text-white">Badminton</a>
+                
+                  <a href="products.html?category=basketball" data-cat="basketball" class="py-2.5 transition text-slate-300 hover:text-white">Basketball</a>
+                
+                  <a href="products.html?category=football" data-cat="football" class="py-2.5 transition text-slate-300 hover:text-white">Football</a>
+                
+                  <a href="products.html?category=swim" data-cat="swim" class="py-2.5 transition text-slate-300 hover:text-white">Swim</a>
+                
+                  <a href="products.html?category=fitness" data-cat="fitness" class="py-2.5 transition text-slate-300 hover:text-white">Fitness</a>
+                
+                  <a href="products.html?category=camping" data-cat="camping" class="py-2.5 transition text-slate-300 hover:text-white">Camping</a>
+                
+                  <a href="products.html?category=volleyball" data-cat="volleyball" class="py-2.5 transition text-slate-300 hover:text-white">Volleyball</a>
+                
+            </div>
+        </nav>
+    </header>
+  
+
+        <!-- Hero Promotion Banner Matching Figma Frame 1 with Decorative Sports Gear Background -->
+        <div class="max-w-[1040px] mx-auto px-6 mt-7">
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl bg-white select-none">
+                <img src="images/figma/hero_banner_full.png" alt="BUY 2 GET 1 FREE - SAVE15 PERKS20 Shop Voucher" class="w-full h-auto block">
+                <!-- Interactive Clickable Hotspots over SAVE15, PERKS20, and Shop Voucher -->
+                <button 
+                    onclick="STATE.claimVoucher('SAVE15')" 
+                    title="Click to collect SAVE15 (15% OFF) coupon"
+                    class="absolute top-[14%] left-[53.2%] w-[15.2%] h-[42%] rounded-lg cursor-pointer hover:ring-2 hover:ring-white/80 transition"
+                    aria-label="Claim SAVE15 Coupon"
+                ></button>
+                <button 
+                    onclick="STATE.claimVoucher('PERKS20')" 
+                    title="Click to collect PERKS20 (20% OFF) coupon"
+                    class="absolute top-[14%] left-[69.4%] w-[15.2%] h-[42%] rounded-lg cursor-pointer hover:ring-2 hover:ring-white/80 transition"
+                    aria-label="Claim PERKS20 Coupon"
+                ></button>
+                <a 
+                    href="vouchers.html" 
+                    title="Open Voucher Center (Code Page)"
+                    class="absolute top-[61%] left-[53.2%] w-[28.2%] h-[27%] rounded-full cursor-pointer hover:ring-2 hover:ring-orange-300 transition block"
+                    aria-label="Shop Voucher"
+                ></a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Light Slate Section with 12 Featured Products per Page (128 Items Total across 11 Pages) -->
+    <div class="bg-[#f1f5f9] flex-1 py-8" id="home-catalog-section">
+        <div class="max-w-[1040px] mx-auto px-6">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-3 mb-5">
+                <div class="flex items-baseline gap-3 flex-wrap">
+                    <h2 class="text-2xl font-black text-slate-900" id="home-section-title">Featured Products</h2>
+                    <span class="text-xs font-semibold text-slate-500" id="home-page-indicator">Showing 1–12 of 128 items (Page 1 of 11)</span>
+                </div>
+
+                <!-- Sort by & Buy 2 Get 1 Free Toggle (Matching Category Pages) -->
+                <div class="flex flex-wrap items-center gap-5 text-xs">
+                    <div class="flex items-center gap-2">
+                        <span class="text-slate-600 font-medium">Sort by:</span>
+                        <select id="home-sort-select" onchange="renderHomeCatalog(1)" class="bg-white border border-slate-300 rounded-md px-3 py-1.5 font-medium text-slate-800 focus:outline-none">
+                            <option value="default">Featured (Default)</option>
+                            <option value="asc">Price (Low to High)</option>
+                            <option value="desc">Price (High to Low)</option>
+                        </select>
+                    </div>
+
+                    <label class="flex items-center gap-2 cursor-pointer select-none">
+                        <input type="checkbox" id="home-promo-toggle" onchange="renderHomeCatalog(1)" class="sr-only peer">
+                        <div class="w-9 h-5 bg-slate-300 peer-checked:bg-[#ff6b00] rounded-full relative transition after:content-[''] after:absolute after:top-0.5 after:left-0.5 after:bg-white after:w-4 after:h-4 after:rounded-full after:transition peer-checked:after:translate-x-4"></div>
+                        <span class="text-slate-700 font-medium">Buy 2 Get 1 Free Eligible</span>
+                    </label>
+                </div>
+            </div>
+
+            <!-- 12 Cards Grid (4 Columns x 3 Rows) -->
+            <div id="home-products-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+            </div>
+
+            <!-- Dynamic Sliding Pagination Matching Khun Kong's Exact Specification -->
+            <div id="home-pagination" class="flex items-center justify-center gap-2 text-sm text-slate-800 font-semibold py-4 select-none">
+            </div>
+        </div>
+    </div>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      const ITEMS_PER_PAGE = 12;
+      let currentHomePage = 1;
+
+      const urlParams = new URLSearchParams(window.location.search);
+      const initialPage = parseInt(urlParams.get('page'), 10);
+      if (initialPage >= 1) {
+        currentHomePage = initialPage;
+      }
+
+      // Auto-enable Buy 2 Get 1 Free toggle if navigated from Voucher page (?promo=bogo)
+      const isInitialBogo = urlParams.get('promo') === 'bogo' || urlParams.get('bogo') === '1';
+      if (isInitialBogo) {
+        const promoCheckbox = document.getElementById('home-promo-toggle');
+        if (promoCheckbox) promoCheckbox.checked = true;
+      }
+
+      function getFilteredHomeProducts() {
+        let list = HOME_ORDERED_IDS.map(id => PRODUCTS_DB.find(p => p.id === id)).filter(Boolean);
+
+        const onlyPromo = document.getElementById('home-promo-toggle')?.checked || false;
+        if (onlyPromo) {
+          list = list.filter(p => STATE.isBuy2Get1Eligible(p.id));
+        }
+
+        const sortMode = document.getElementById('home-sort-select')?.value || 'default';
+        if (sortMode === 'asc') {
+          list = [...list].sort((a, b) => a.price - b.price);
+        } else if (sortMode === 'desc') {
+          list = [...list].sort((a, b) => b.price - a.price);
+        }
+        return list;
+      }
+
+      function renderHomeCatalog(page, shouldScroll = false) {
+        const filteredList = getFilteredHomeProducts();
+        const totalPages = Math.max(1, Math.ceil(filteredList.length / ITEMS_PER_PAGE));
+        currentHomePage = Math.max(1, Math.min(totalPages, page));
+
+        const onlyPromo = document.getElementById('home-promo-toggle')?.checked || false;
+        const sortMode = document.getElementById('home-sort-select')?.value || 'default';
+
+        // Update section heading dynamically when filtering by Buy 2 Get 1 Free
+        const titleEl = document.getElementById('home-section-title');
+        if (titleEl) {
+          titleEl.innerHTML = onlyPromo
+            ? `Featured Products <span class="text-sm font-extrabold text-[#166534] bg-[#dcfce7] border border-green-300 px-3 py-0.5 rounded-full align-middle ml-1">🎁 เฉพาะสินค้าโปร Buy 2 Get 1 Free (${filteredList.length} รายการ)</span>`
+            : 'Featured Products';
+        }
+
+        // Update URL query parameter without reloading
+        const queryParts = [];
+        if (onlyPromo) queryParts.push('promo=bogo');
+        if (currentHomePage > 1) queryParts.push('page=' + currentHomePage);
+        const newUrl = queryParts.length > 0 ? ('index.html?' + queryParts.join('&')) : 'index.html';
+        window.history.replaceState({ page: currentHomePage }, '', newUrl);
+
+        const startIdx = (currentHomePage - 1) * ITEMS_PER_PAGE;
+        const pageProducts = filteredList.slice(startIdx, startIdx + ITEMS_PER_PAGE);
+
+        const endIdx = Math.min(startIdx + pageProducts.length, filteredList.length);
+        document.getElementById('home-page-indicator').textContent =
+          filteredList.length === 0
+            ? 'Showing 0 items'
+            : 'Showing ' + (startIdx + 1) + '–' + endIdx + ' of ' + filteredList.length + ' items (Page ' + currentHomePage + ' of ' + totalPages + ')';
+
+        const grid = document.getElementById('home-products-grid');
+        grid.innerHTML = pageProducts.map(p => {
+          const imgSrc = (currentHomePage === 1 && !onlyPromo && sortMode === 'default' && p.home_image) ? p.home_image : p.image;
+          return `
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-sm hover:shadow-md transition flex flex-col justify-between">
+                <a href="product-detail.html?id=${p.id}" class="block group">
+                    <div class="h-44 rounded-xl bg-white flex items-center justify-center p-2 mb-3 overflow-hidden">
+                        <img src="${imgSrc}" alt="${p.name}" class="max-h-full max-w-full object-contain group-hover:scale-105 transition duration-200">
+                    </div>
+                    <div class="mb-2 min-h-[20px]">
+                        ${STATE.isBuy2Get1Eligible(p.id) ? '<span class="inline-block bg-[#dcfce7] text-[#166534] border border-green-300 text-[10px] font-extrabold px-2 py-0.5 rounded-full">🎁 Buy 2 Get 1 Free</span>' : ''}
+                    </div>
+                    <h3 class="font-medium text-slate-900 text-sm mb-3 leading-snug min-h-[40px] group-hover:text-[#ff6b00] transition">${p.name}</h3>
+                </a>
+                <div class="flex items-center justify-between pt-1">
+                    <span class="font-bold text-slate-900 text-sm">${p.price.toLocaleString()} Baht</span>
+                    <button onclick="STATE.addToCart(${p.id})" class="bg-[#22c55e] hover:bg-green-600 text-white font-semibold px-3.5 py-1.5 rounded-lg text-xs transition shadow-sm">
+                        Add to Cart
+                    </button>
+                </div>
+            </div>
+          `;
+        }).join('');
+
+        renderHomePagination(totalPages);
+
+        if (shouldScroll) {
+          document.getElementById('home-catalog-section').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      function pageBtnHtml(p) {
+        if (p === currentHomePage) {
+          return `<button onclick="renderHomeCatalog(${p}, true)" class="w-8 h-8 rounded-md bg-[#0b1329] text-white font-bold flex items-center justify-center shadow-sm">${p}</button>`;
+        }
+        return `<button onclick="renderHomeCatalog(${p}, true)" class="px-2 py-1 rounded hover:bg-slate-200 text-slate-800 font-semibold transition">${p}</button>`;
+      }
+
+      function renderHomePagination(totalPages) {
+        const container = document.getElementById('home-pagination');
+        let html = '';
+
+        if (currentHomePage > 1) {
+          html += `<button onclick="renderHomeCatalog(${currentHomePage - 1}, true)" class="px-2.5 py-1 rounded hover:bg-slate-200 text-slate-700 font-bold flex items-center gap-1 mr-1">← Prev</button>`;
+        }
+
+        html += `<span class="text-slate-500 font-medium mr-1">Page</span>`;
+
+        if (totalPages <= 5) {
+          for (let i = 1; i <= totalPages; i++) {
+            html += pageBtnHtml(i);
+          }
+        } else if (currentHomePage <= 2) {
+          html += pageBtnHtml(1) + pageBtnHtml(2) + pageBtnHtml(3);
+          html += `<span class="text-slate-400 px-1 tracking-widest">......</span>`;
+          html += pageBtnHtml(totalPages - 1) + pageBtnHtml(totalPages);
+        } else if (currentHomePage <= totalPages - 3) {
+          html += pageBtnHtml(currentHomePage - 1) + pageBtnHtml(currentHomePage) + pageBtnHtml(currentHomePage + 1);
+          html += `<span class="text-slate-400 px-1 tracking-widest">......</span>`;
+          html += pageBtnHtml(totalPages - 1) + pageBtnHtml(totalPages);
+        } else {
+          html += pageBtnHtml(1) + pageBtnHtml(2);
+          html += `<span class="text-slate-400 px-1 tracking-widest">......</span>`;
+          html += pageBtnHtml(totalPages - 2) + pageBtnHtml(totalPages - 1) + pageBtnHtml(totalPages);
+        }
+
+        if (currentHomePage < totalPages) {
+          html += `<button onclick="renderHomeCatalog(${currentHomePage + 1}, true)" class="px-2.5 py-1 rounded hover:bg-slate-200 text-slate-900 font-bold flex items-center gap-1 ml-1">Next →</button>`;
+        }
+
+        container.innerHTML = html;
+      }
+
+      renderHomeCatalog(currentHomePage, isInitialBogo);
+    </script>
+</body>
+</html>

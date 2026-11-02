@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Complete — SPORT.CPE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-[#f1f5f9] min-h-screen flex flex-col">
+
+    <!-- Top Navigation Bar -->
+    <header class="bg-[#0b1329] text-white">
+        <div class="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-2 font-black text-xl tracking-wider text-white hover:opacity-90">
+                <img src="images/logo_sport_cpe.png" alt="SPORT.CPE Logo" class="w-9 h-9 object-contain shrink-0"> SPORT.CPE
+            </a>
+
+            <div class="flex-1 max-w-[500px] hidden md:block">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        placeholder="Search equipment, shoes, gear..." 
+                        class="w-full bg-[#1e293b] text-white placeholder-slate-400 text-xs rounded-lg pl-9 pr-4 py-2 border border-slate-700 focus:outline-none focus:border-[#ff6b00]"
+                        onkeydown="if(event.key==='Enter'){ window.location.href='products.html?search='+this.value; }"
+                    >
+                    <span class="absolute left-3 top-2 text-xs text-slate-400">🔍</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="cart.html" class="flex items-center gap-2 bg-[#22c55e] hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition">
+                    <span>🛒 Cart (0)</span>
+                </a>
+                <div id="nav-auth-area" class="flex items-center gap-2">
+                    <a href="login.html" class="flex items-center gap-1.5 border border-slate-400 hover:border-white px-4 py-1.5 rounded-lg text-xs font-semibold text-white transition">
+                        <span>👤 Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="border-t border-slate-800 text-xs font-medium">
+            <div class="max-w-[1280px] mx-auto px-6 flex items-center gap-8 h-11 overflow-x-auto whitespace-nowrap">
+                <a href="index.html" class="py-2.5 text-white font-bold border-b-2 border-[#ff6b00]">Home</a>
+                <a href="products.html?category=running" class="py-2.5 text-slate-400 hover:text-white">Running</a>
+                <a href="products.html?category=badminton" class="py-2.5 text-slate-400 hover:text-white">Badminton</a>
+                <a href="products.html?category=basketball" class="py-2.5 text-slate-400 hover:text-white">Basketball</a>
+                <a href="products.html?category=football" class="py-2.5 text-slate-400 hover:text-white">Football</a>
+                <a href="products.html?category=swim" class="py-2.5 text-slate-400 hover:text-white">Swim</a>
+                <a href="products.html?category=fitness" class="py-2.5 text-slate-400 hover:text-white">Fitness</a>
+                <a href="products.html?category=camping" class="py-2.5 text-slate-400 hover:text-white">Camping</a>
+                <a href="products.html?category=volleyball" class="py-2.5 text-slate-400 hover:text-white">Volleyball</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-[1280px] w-full mx-auto px-6 py-8 flex-1">
+        <!-- Stepper -->
+        <div class="max-w-md mx-auto my-6 text-center">
+            <div class="flex items-center justify-between text-xs font-bold text-green-600">
+                <span class="flex items-center gap-1">✔ 1. Cart</span>
+                <span class="h-0.5 flex-1 bg-green-500 mx-3"></span>
+                <span class="flex items-center gap-1">✔ 2. Checkout</span>
+                <span class="h-0.5 flex-1 bg-green-500 mx-3"></span>
+                <span class="flex items-center gap-1 text-slate-900 font-extrabold">● 3. Complete</span>
+            </div>
+        </div>
+
+        <!-- Centered Confirmation Card -->
+        <div class="max-w-xl mx-auto bg-white rounded-3xl p-8 border border-slate-200 shadow-sm text-center">
+            <div class="w-16 h-16 rounded-full bg-green-100 text-green-600 text-2xl font-black flex items-center justify-center mx-auto mb-4">
+                ✔
+            </div>
+
+            <h1 class="text-2xl font-black text-slate-900 mb-1">Thank you for your order!</h1>
+            <p id="order-subtitle" class="text-xs text-slate-500 mb-6">Your payment was successful and order #1013 is now being prepared.</p>
+
+            <!-- Order Summary Box -->
+            <div class="bg-slate-50 border border-slate-200 rounded-2xl p-5 text-left text-xs text-slate-700 space-y-2 mb-6">
+                <div class="font-bold text-slate-900 mb-2">Order Summary Box</div>
+                <div class="grid grid-cols-2 gap-2 border-b border-slate-200 pb-2">
+                    <div>Order Number: <strong id="order-id" class="text-slate-900">#1013</strong></div>
+                    <div>Date: <strong id="order-date" class="text-slate-900">Nov 1, 2026</strong></div>
+                </div>
+                <div class="grid grid-cols-2 gap-2 border-b border-slate-200 pb-2">
+                    <div>Payment Method: <span id="order-payment" class="text-green-600 font-bold">PromptPay QR (Paid ✔)</span></div>
+                    <div>Total Amount: <strong id="order-total" class="text-slate-900 text-sm">฿13,800.00</strong></div>
+                </div>
+                <div class="pt-1">
+                    Shipping Address:<br>
+                    <strong id="order-address">Dept. of Computer Engineering, Faculty of Engineering, CMU 50200</strong>
+                </div>
+            </div>
+
+            <!-- Ordered Items Mini Section -->
+            <div class="text-left text-xs space-y-2 mb-6">
+                <div class="font-bold text-slate-900">Ordered Items Section</div>
+                <div id="ordered-items-list" class="space-y-2">
+                    <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
+                        <span>Yonex Astrox 99 Pro Racket (Qty: 2)</span>
+                        <strong class="text-slate-900">฿13,800.00</strong>
+                    </div>
+                    <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
+                        <span>Yonex Aerosensa 50 (Qty: 1 - Free Gift)</span>
+                        <strong class="text-green-600">฿0.00</strong>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex items-center justify-center gap-4">
+                <a href="index.html" class="bg-[#0b1329] hover:bg-slate-800 text-white font-bold px-6 py-3 rounded-xl text-xs transition">
+                    Back to Home ➔
+                </a>
+                <a href="profile.html" class="border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold px-6 py-3 rounded-xl text-xs transition">
+                    View Order History
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const raw = localStorage.getItem('sport_cpe_last_order');
+            if (!raw) return;
+            try {
+                const order = JSON.parse(raw);
+                document.getElementById('order-subtitle').textContent = `Your payment was successful and order ${order.id} is now being prepared.`;
+                document.getElementById('order-id').textContent = order.id;
+                document.getElementById('order-date').textContent = order.date || 'Nov 1, 2026';
+                document.getElementById('order-payment').textContent = `${order.payment || 'PromptPay QR'} (Paid ✔)`;
+                document.getElementById('order-total').textContent = `฿${Number(order.total || 0).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+                if (order.address) {
+                    document.getElementById('order-address').textContent = order.address;
+                }
+                if (Array.isArray(order.items) && order.items.length > 0) {
+                    const list = document.getElementById('ordered-items-list');
+                    list.innerHTML = order.items.map(item => `
+                        <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl">
+                            <span>${item.name} (Qty: ${item.qty})</span>
+                            <strong class="text-slate-900">฿${(item.price * item.qty).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
+                        </div>
+                    `).join('') + (order.discount > 0 ? `
+                        <div class="flex items-center justify-between p-2.5 bg-green-50 text-green-700 rounded-xl">
+                            <span>Discount (${order.discountLabel || 'PROMO'})</span>
+                            <strong class="text-green-600">-฿${Number(order.discount).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</strong>
+                        </div>
+                    ` : '');
+                }
+            } catch (e) {}
+        });
+    </script>
+</body>
+</html>

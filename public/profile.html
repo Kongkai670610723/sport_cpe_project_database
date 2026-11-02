@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Profile — SPORT.CPE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>body { font-family: 'Inter', sans-serif; }</style>
+</head>
+<body class="bg-[#f1f5f9] min-h-screen flex flex-col">
+
+    <header class="bg-[#0b1329] text-white">
+        <div class="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between gap-4">
+            <a href="index.html" class="flex items-center gap-2 font-black text-xl tracking-wider text-white hover:opacity-90 italic">
+                <img src="images/logo_sport_cpe.png" alt="SPORT.CPE Logo" class="w-9 h-9 object-contain shrink-0"> SPORT.CPE
+            </a>
+
+            <div class="flex-1 max-w-[500px] hidden md:block">
+                <div class="relative">
+                    <input 
+                        type="text" 
+                        id="global-search-input"
+                        placeholder="Search equipment, shoes, gear..." 
+                        class="w-full bg-[#1e293b] text-white placeholder-slate-400 text-xs rounded-lg pl-9 pr-4 py-2.5 border border-slate-700 focus:outline-none focus:border-[#ff6b00]"
+                        onkeydown="if(event.key==='Enter'){ window.location.href='products.html?search='+encodeURIComponent(this.value); }"
+                    >
+                    <span class="absolute left-3 top-2.5 text-xs text-slate-400">🔍</span>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <a href="cart.html" class="flex items-center gap-2 bg-[#22c55e] hover:bg-green-600 text-white px-4 py-2 rounded-lg font-bold text-xs transition shadow-sm">
+                    <span>🛒 Cart (<span id="cart-badge-count">0</span>)</span>
+                </a>
+                <div id="nav-auth-area" class="flex items-center gap-2">
+                    <a href="login.html" class="flex items-center gap-1.5 border border-slate-400 hover:border-white px-4 py-1.5 rounded-lg text-xs font-semibold text-white transition">
+                        <span>👤 Login</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <nav class="border-t border-slate-800 text-xs font-medium">
+            <div class="max-w-[1280px] mx-auto px-6 flex items-center gap-8 h-11 overflow-x-auto whitespace-nowrap" id="main-cat-nav">
+                <a href="index.html" data-cat="home" class="py-2.5 transition text-[#ff6b00] font-bold border-b-2 border-[#ff6b00]">Home</a>
+                <a href="products.html?category=running" data-cat="running" class="py-2.5 transition text-slate-300 hover:text-white">Running</a>
+                <a href="products.html?category=badminton" data-cat="badminton" class="py-2.5 transition text-slate-300 hover:text-white">Badminton</a>
+                <a href="products.html?category=basketball" data-cat="basketball" class="py-2.5 transition text-slate-300 hover:text-white">Basketball</a>
+                <a href="products.html?category=football" data-cat="football" class="py-2.5 transition text-slate-300 hover:text-white">Football</a>
+                <a href="products.html?category=swim" data-cat="swim" class="py-2.5 transition text-slate-300 hover:text-white">Swim</a>
+                <a href="products.html?category=fitness" data-cat="fitness" class="py-2.5 transition text-slate-300 hover:text-white">Fitness</a>
+                <a href="products.html?category=camping" data-cat="camping" class="py-2.5 transition text-slate-300 hover:text-white">Camping</a>
+                <a href="products.html?category=volleyball" data-cat="volleyball" class="py-2.5 transition text-slate-300 hover:text-white">Volleyball</a>
+            </div>
+        </nav>
+    </header>
+
+    <main class="max-w-[1140px] w-full mx-auto px-6 py-10 flex-1">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            <!-- Left: Profile Card (Figma Frame 6) -->
+            <div class="md:col-span-4 bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col items-center text-center">
+                <div id="prof-avatar" class="w-20 h-20 rounded-full bg-[#e2e8f0] text-[#0f172a] text-2xl font-black flex items-center justify-center mb-3">
+                    KK
+                </div>
+
+                <h2 id="prof-name" class="text-xl font-bold text-slate-900">Kongkai Jai-dee</h2>
+                <div class="mt-1 mb-6">
+                    <span class="bg-[#dcfce7] text-[#166534] text-xs font-semibold px-3 py-1 rounded-full inline-flex items-center gap-1">
+                        ✔ Verified Member
+                    </span>
+                </div>
+
+                <div class="w-full text-left space-y-3.5 text-xs text-slate-700 border-t border-slate-100 pt-6 mb-6">
+                    <div class="flex items-start gap-2.5">
+                        <span class="text-sm">✉</span>
+                        <div><strong>Email:</strong> <span id="prof-email">kongkai@cpe.eng.cmu.ac.th</span></div>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="text-sm">📞</span>
+                        <div><strong>Phone:</strong> <span id="prof-phone">089-123-4567</span></div>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="text-sm">📍</span>
+                        <div>
+                            <strong>Shipping Address:</strong><br>
+                            <span id="prof-address">ภาควิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มช. 50200</span>
+                        </div>
+                    </div>
+                    <div class="flex items-start gap-2.5">
+                        <span class="text-sm">📅</span>
+                        <div><strong>Member Since:</strong> <span id="prof-since">Oct 2026</span></div>
+                    </div>
+                </div>
+
+                <div class="w-full space-y-2.5">
+                    <button onclick="openEditProfileModal()" class="w-full bg-[#0b1329] hover:bg-slate-800 text-white font-bold py-2.5 rounded-full text-xs transition shadow-sm">
+                        Edit
+                    </button>
+                    <button onclick="STATE.logout()" class="w-full bg-white border border-slate-300 hover:bg-red-50 text-[#c40000] font-bold py-2.5 rounded-full text-xs transition">
+                        Log out
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right: Relational Order History (Strictly filtered by user_id from orders table!) -->
+            <div class="md:col-span-8">
+                <div class="flex items-center gap-2.5 mb-5">
+                    <h1 class="text-2xl font-black text-slate-900">Order History</h1>
+                    <span id="order-history-count" class="bg-slate-200 text-slate-700 text-xs font-bold px-3 py-1 rounded-full">(0 orders)</span>
+                </div>
+
+                <div id="order-history-list" class="space-y-4">
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Edit Profile Modal Popup -->
+    <div id="edit-profile-modal" class="fixed inset-0 z-50 bg-slate-900/60 backdrop-blur-xs hidden items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-7 border border-slate-200 shadow-2xl relative">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+                <div>
+                    <h3 class="text-lg font-black text-slate-900">แก้ไขข้อมูลสมาชิก (Edit Profile)</h3>
+                    <p class="text-[11px] text-slate-500 mt-0.5">อัปเดตชื่อ เบอร์โทรศัพท์ ที่อยู่จัดส่ง หรือรหัสผ่านของคุณ</p>
+                </div>
+                <button onclick="closeEditProfileModal()" class="w-8 h-8 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-sm transition">✕</button>
+            </div>
+
+            <div id="edit-profile-error" class="hidden bg-red-50 border border-red-200 text-red-600 text-xs font-semibold rounded-xl px-4 py-2.5 mb-4"></div>
+
+            <form onsubmit="saveEditedProfile(event)" class="space-y-3.5 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">
+                        Email Address <span class="text-[10px] font-normal text-slate-400">(ไม่สามารถแก้ไขได้ / Primary Login ID)</span>
+                    </label>
+                    <input 
+                        type="email" 
+                        id="modal-edit-email" 
+                        disabled 
+                        readonly
+                        class="w-full bg-slate-100 text-slate-500 border border-slate-200 rounded-xl px-3.5 py-2.5 cursor-not-allowed font-medium select-none"
+                    >
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">ชื่อ-นามสกุล (Full Name) *</label>
+                    <input 
+                        type="text" 
+                        id="modal-edit-name" 
+                        required
+                        placeholder="กรอกชื่อ-นามสกุล"
+                        class="w-full bg-white text-slate-900 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#0b1329]"
+                    >
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">เบอร์โทรศัพท์ (Phone Number — ตัวเลข 10 หลัก ขึ้นต้นด้วย 0) *</label>
+                    <input 
+                        type="tel" 
+                        id="modal-edit-phone" 
+                        maxlength="12"
+                        required
+                        placeholder="เช่น 0891234567"
+                        class="w-full bg-white text-slate-900 border border-slate-300 rounded-xl px-3.5 py-2.5 focus:outline-none focus:border-[#0b1329]"
+                    >
+                </div>
+
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">ที่อยู่จัดส่ง (Shipping Address) *</label>
+                    <textarea 
+                        id="modal-edit-address" 
+                        rows="2"
+                        required
+                        placeholder="กรอกที่อยู่จัดส่งสินค้า"
+                        class="w-full bg-white text-slate-900 border border-slate-300 rounded-xl px-3.5 py-2 focus:outline-none focus:border-[#0b1329]"
+                    ></textarea>
+                </div>
+
+                <div class="border-t border-slate-200 pt-3.5 mt-2">
+                    <div class="font-bold text-slate-800 mb-1 flex items-center justify-between">
+                        <span>🔒 เปลี่ยนรหัสผ่านใหม่ (Change Password)</span>
+                        <span class="text-[10px] font-normal text-slate-400">เว้นว่างไว้หากไม่ต้องการเปลี่ยน</span>
+                    </div>
+
+                    <div class="space-y-2.5 mt-2">
+                        <div>
+                            <label class="block font-semibold text-slate-600 mb-1">รหัสผ่านใหม่ (New Password)</label>
+                            <div class="relative">
+                                <input 
+                                    type="password" 
+                                    id="modal-edit-pass1" 
+                                    placeholder="อย่างน้อย 8 ตัวอักษร (เว้นว่างหากใช้รหัสเดิม)"
+                                    class="w-full bg-white text-slate-900 border border-slate-300 rounded-xl pl-3.5 pr-9 py-2 focus:outline-none focus:border-[#0b1329]"
+                                >
+                                <button type="button" onclick="toggleModalPass('modal-edit-pass1', this)" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">👁</button>
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block font-semibold text-slate-600 mb-1">ยืนยันรหัสผ่านใหม่อีกครั้ง (Confirm New Password)</label>
+                            <div class="relative">
+                                <input 
+                                    type="password" 
+                                    id="modal-edit-pass2" 
+                                    placeholder="กรอกรหัสผ่านใหม่อีกครั้งเพื่อยืนยัน"
+                                    class="w-full bg-white text-slate-900 border border-slate-300 rounded-xl pl-3.5 pr-9 py-2 focus:outline-none focus:border-[#0b1329]"
+                                >
+                                <button type="button" onclick="toggleModalPass('modal-edit-pass2', this)" class="absolute right-3 top-2 text-slate-400 hover:text-slate-700">👁</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-2.5 pt-4 border-t border-slate-100">
+                    <button type="button" onclick="closeEditProfileModal()" class="px-5 py-2.5 rounded-full border border-slate-300 hover:bg-slate-50 text-slate-700 font-bold transition">
+                        ยกเลิก (Cancel)
+                    </button>
+                    <button type="submit" class="px-6 py-2.5 rounded-full bg-[#0b1329] hover:bg-slate-800 text-white font-bold shadow-md transition">
+                        ✓ บันทึกข้อมูล (Save Changes)
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+      function getStatusPillClass(status) {
+        if (status === 'Cancelled') return 'bg-[#fee2e2] text-[#b91c1c]';
+        if (status === 'Pending') return 'bg-[#ffedd5] text-[#c2410c]';
+        if (status === 'Paid' || status === 'Shipped') return 'bg-[#dbeafe] text-[#1d4ed8]';
+        return 'bg-[#dcfce7] text-[#15803d]';
+      }
+
+      function resolveProductImage(productId, fallback) {
+        if (typeof PRODUCTS_DB !== 'undefined' && productId) {
+          const p = PRODUCTS_DB.find(x => x.id === Number(productId));
+          if (p) return p.image;
+        }
+        return fallback || 'images/figma/prod_astrox_vertical.png';
+      }
+
+      function renderProfileUI() {
+        const user = STATE.getCurrentUser();
+        if (!user) {
+          window.location.href = 'login.html?redirect=profile.html';
+          return;
+        }
+        document.getElementById('prof-avatar').textContent = STATE.getInitials(user.name);
+        document.getElementById('prof-name').textContent = user.name;
+        document.getElementById('prof-email').textContent = user.email;
+        document.getElementById('prof-phone').textContent = user.phone;
+        document.getElementById('prof-address').textContent = user.address;
+        document.getElementById('prof-since').textContent = user.member_since || 'Nov 2026';
+
+        // Fix #3: Query ONLY orders that belong to THIS logged-in user (SELECT * FROM orders WHERE user_id = ?)
+        const userOrders = STATE.getOrdersByUser(user);
+        document.getElementById('order-history-count').textContent = `(${userOrders.length} orders)`;
+        const listEl = document.getElementById('order-history-list');
+
+        if (userOrders.length === 0) {
+          listEl.innerHTML = `
+            <div class="bg-white rounded-3xl border border-slate-200 p-10 text-center shadow-sm">
+                <div class="text-4xl mb-3">📦</div>
+                <h3 class="text-base font-bold text-slate-900 mb-1">ยังไม่มีประวัติการสั่งซื้อสำหรับบัญชี ${user.name}</h3>
+                <p class="text-xs text-slate-500 mb-5">เมื่อคุณสั่งซื้อสินค้าจากหน้า Checkout รายการคำสั่งซื้อของคุณจะถูกบันทึกและแสดงที่นี่โดยอัตโนมัติ</p>
+                <a href="index.html" class="inline-block bg-[#0b1329] hover:bg-slate-800 text-white font-bold px-6 py-2.5 rounded-full text-xs transition">
+                    เริ่มเลือกซื้อสินค้า →
+                </a>
+            </div>
+          `;
+          return;
+        }
+
+        listEl.innerHTML = userOrders.map((ord, idx) => {
+          const shipAddr = ord.address || user.address;
+          const items = ord.items || [];
+          const firstItem = items[0] || {};
+          const cardThumb = ord.thumb || resolveProductImage(firstItem.product_id, firstItem.image);
+          const cardTitle = ord.title || items.map(it => `${it.name} (Qty: ${it.qty || it.quantity || 1})`).join(' + ');
+          const pillClass = getStatusPillClass(ord.status);
+
+          const itemsHtml = items.map(it => {
+            const imgUrl = resolveProductImage(it.product_id, it.image);
+            const qty = Number(it.qty || it.quantity || 1);
+            const freeQty = Number(it.free_qty || 0);
+            const lineSubtotal = Number(it.price) * qty;
+            return `
+              <div class="flex items-center justify-between py-2.5 border-b border-slate-200/70 last:border-0 text-xs">
+                  <div class="flex items-center gap-3">
+                      <img src="${imgUrl}" class="w-11 h-11 rounded-lg bg-white border border-slate-200 object-contain p-1">
+                      <div>
+                          <div class="font-bold text-slate-900">${it.name}</div>
+                          <div class="text-[11px] text-slate-500">หมวดหมู่: ${it.category || 'Sports'} | ราคาต่อชิ้น: ฿${Number(it.price).toLocaleString()} × ${qty} ชิ้น</div>
+                          ${freeQty > 0 ? `<span class="inline-block bg-[#dcfce7] text-[#166534] text-[10px] font-bold px-2 py-0.5 rounded-full mt-0.5">🎁 แถมฟรี ${freeQty} ชิ้น (Buy 2 Get 1 Free)</span>` : ''}
+                      </div>
+                  </div>
+                  <div class="text-right">
+                      <div class="font-bold text-slate-900">฿${lineSubtotal.toLocaleString()}</div>
+                      ${Number(it.discount_amount || 0) > 0 ? `<div class="text-[10px] text-rose-600 font-semibold">ส่วนลด -฿${Number(it.discount_amount).toLocaleString()}</div>` : ''}
+                  </div>
+              </div>
+            `;
+          }).join('');
+
+          return `
+            <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden transition-all">
+                <div class="px-5 py-3 border-b border-slate-100 flex items-center justify-between text-xs">
+                    <div><strong class="text-slate-900">Order ${ord.id}</strong> <span class="text-slate-400 mx-1">|</span> <span class="text-slate-600">${ord.date}</span></div>
+                    <span class="${pillClass} font-bold px-3 py-0.5 rounded-full text-[11px]">● ${ord.status}</span>
+                </div>
+                <div class="p-5 flex items-center justify-between gap-4">
+                    <div class="flex items-center gap-4">
+                        <img src="${cardThumb}" class="w-14 h-14 rounded-xl border border-slate-200 object-contain p-1">
+                        <div class="text-xs">
+                            <div class="font-medium text-slate-800">${cardTitle}</div>
+                            <div class="font-black text-slate-900 text-sm mt-1">Total: ${Number(ord.total).toLocaleString()} Baht</div>
+                        </div>
+                    </div>
+                    <button id="btn-detail-${idx}" onclick="toggleOrderDetails(${idx})" class="border border-slate-400 hover:bg-slate-100 text-slate-800 font-semibold px-4 py-1.5 rounded-full text-xs transition shrink-0">
+                        [ View Details ]
+                    </button>
+                </div>
+
+                <!-- Expandable Order Details Accordion Panel -->
+                <div id="order-detail-panel-${idx}" class="hidden bg-slate-50/90 border-t border-slate-200 px-6 py-4 text-xs space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-200">
+                        <div class="font-bold text-slate-900">📋 รายละเอียดคำสั่งซื้อ (Order ${ord.id})</div>
+                        <div class="text-[11px] text-slate-600">🚚 สถานะจัดส่ง: <strong class="text-slate-800">${ord.tracking || 'กำลังเตรียมจัดส่ง'}</strong></div>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 bg-white p-3.5 rounded-xl border border-slate-200/80">
+                        <div>
+                            <div class="text-[11px] text-slate-400 font-semibold">ผู้รับ & ที่อยู่จัดส่ง (Shipping Address)</div>
+                            <div class="font-bold text-slate-800 mt-0.5">${ord.customer || user.name} (${user.phone})</div>
+                            <div class="text-slate-600 text-[11px] mt-0.5">${shipAddr}</div>
+                        </div>
+                        <div>
+                            <div class="text-[11px] text-slate-400 font-semibold">การชำระเงิน & โปรโมชัน (Payment & Promo)</div>
+                            <div class="font-bold text-slate-800 mt-0.5">💳 ${ord.payment || 'PromptPay QR'}</div>
+                            <div class="text-[#166534] font-semibold text-[11px] mt-0.5">🏷️ โปรโมชัน/โค้ดที่ใช้: ${ord.discountCode || 'ไม่มี'}</div>
+                        </div>
+                    </div>
+
+                    <div class="bg-white px-4 py-2 rounded-xl border border-slate-200/80">
+                        <div class="text-[11px] font-bold text-slate-500 py-1.5 border-b border-slate-100">รายการสินค้าในบิล (ตาราง order_items)</div>
+                        ${itemsHtml}
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pt-1 text-xs">
+                        <div class="text-slate-500">
+                            ยอดรวมสินค้า (Subtotal): <strong>฿${Number(ord.subtotal || ord.total).toLocaleString()}</strong>
+                            ${Number(ord.discount || 0) > 0 ? ` | ส่วนลดรวม: <strong class="text-rose-600">-฿${Number(ord.discount).toLocaleString()}</strong>` : ''}
+                            | ค่าจัดส่ง: <strong class="text-green-600">Free</strong>
+                        </div>
+                        <div class="text-sm font-black text-slate-900">
+                            ยอดชำระสุทธิ: <span class="text-[#ff6b00]">฿${Number(ord.total).toLocaleString()}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+          `;
+        }).join('');
+      }
+
+      function toggleOrderDetails(idx) {
+        const panel = document.getElementById('order-detail-panel-' + idx);
+        const btn = document.getElementById('btn-detail-' + idx);
+        if (!panel || !btn) return;
+        const isHidden = panel.classList.contains('hidden');
+        if (isHidden) {
+          panel.classList.remove('hidden');
+          btn.textContent = '[ Hide Details ▲ ]';
+          btn.className = 'bg-[#0b1329] text-white font-semibold px-4 py-1.5 rounded-full text-xs transition shrink-0';
+        } else {
+          panel.classList.add('hidden');
+          btn.textContent = '[ View Details ]';
+          btn.className = 'border border-slate-400 hover:bg-slate-100 text-slate-800 font-semibold px-4 py-1.5 rounded-full text-xs transition shrink-0';
+        }
+      }
+
+      function openEditProfileModal() {
+        const u = STATE.getCurrentUser();
+        if (!u) return;
+        document.getElementById('modal-edit-email').value = u.email;
+        document.getElementById('modal-edit-name').value = u.name;
+        document.getElementById('modal-edit-phone').value = u.phone;
+        document.getElementById('modal-edit-address').value = u.address;
+        document.getElementById('modal-edit-pass1').value = '';
+        document.getElementById('modal-edit-pass2').value = '';
+        document.getElementById('edit-profile-error').classList.add('hidden');
+
+        const modal = document.getElementById('edit-profile-modal');
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+      }
+
+      function closeEditProfileModal() {
+        const modal = document.getElementById('edit-profile-modal');
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+      }
+
+      function toggleModalPass(inputId, btn) {
+        const inp = document.getElementById(inputId);
+        if (!inp) return;
+        if (inp.type === 'password') {
+          inp.type = 'text';
+          btn.textContent = '🙈';
+        } else {
+          inp.type = 'password';
+          btn.textContent = '👁';
+        }
+      }
+
+      function saveEditedProfile(e) {
+        e.preventDefault();
+        const u = STATE.getCurrentUser();
+        if (!u) return;
+
+        const newName = document.getElementById('modal-edit-name').value.trim();
+        const newPhone = document.getElementById('modal-edit-phone').value.trim();
+        const newAddr = document.getElementById('modal-edit-address').value.trim();
+        const pass1 = document.getElementById('modal-edit-pass1').value;
+        const pass2 = document.getElementById('modal-edit-pass2').value;
+        const err = document.getElementById('edit-profile-error');
+
+        if (!newName || !newPhone || !newAddr) {
+          err.textContent = '⚠️ กรุณากรอกชื่อ เบอร์โทรศัพท์ และที่อยู่จัดส่งให้ครบถ้วน';
+          err.classList.remove('hidden');
+          return;
+        }
+        if (!STATE.isValidPhone(newPhone)) {
+          err.textContent = '⚠️ เบอร์โทรศัพท์ไม่ถูกต้อง! ต้องเป็นตัวเลข 10 หลัก และขึ้นต้นด้วยเลข 0 เท่านั้น (เช่น 0891234567)';
+          err.classList.remove('hidden');
+          return;
+        }
+
+        if (pass1.length > 0 || pass2.length > 0) {
+          if (pass1.length < 8) {
+            err.textContent = '⚠️ รหัสผ่านใหม่ต้องมีความยาวอย่างน้อย 8 ตัวอักษร';
+            err.classList.remove('hidden');
+            return;
+          }
+          if (pass1 !== pass2) {
+            err.textContent = '⚠️ รหัสผ่านใหม่และการยืนยันรหัสผ่านทั้ง 2 ช่องไม่ตรงกัน กรุณาตรวจสอบอีกครั้ง';
+            err.classList.remove('hidden');
+            return;
+          }
+          u.password = pass1;
+        }
+
+        u.name = newName;
+        u.phone = newPhone;
+        u.address = newAddr;
+
+        STATE.setCurrentUser(u);
+        const users = STATE.getUsers().map(item => item.user_id === u.user_id ? u : item);
+        STATE.saveUsers(users);
+
+        if (typeof fetch === 'function') {
+          fetch('/api/db/profile', {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              user_id: u.user_id,
+              name: newName,
+              phone: newPhone,
+              address: newAddr,
+              password: pass1 || ''
+            })
+          }).catch(() => {});
+        }
+
+        closeEditProfileModal();
+        renderProfileUI();
+        STATE.showToast('บันทึกการแก้ไขข้อมูลโปรไฟล์ลงฐานข้อมูล sport_cpe_db ' + (pass1 ? 'และรหัสผ่านใหม่ ' : '') + 'เรียบร้อยแล้ว!');
+      }
+
+      document.addEventListener('DOMContentLoaded', renderProfileUI);
+    </script>
+</body>
+</html>

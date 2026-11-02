@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard — SPORT.CPE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+        /* Custom clean scrollbar for scrollable admin panels */
+        .admin-scroll::-webkit-scrollbar { width: 6px; height: 6px; }
+        .admin-scroll::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 9999px; }
+        .admin-scroll::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 9999px; }
+        .admin-scroll::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+    </style>
+</head>
+<body class="bg-[#f1f5f9] min-h-screen flex flex-col">
+
+    <!-- Admin Header -->
+    <header class="bg-[#0b1329] text-white sticky top-0 z-40 shadow-md">
+        <div class="max-w-[1280px] mx-auto px-6 h-[72px] flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <a href="index.html" class="flex items-center gap-2.5 text-xl font-black tracking-wider italic hover:opacity-95"><img src="images/logo_sport_cpe.png" alt="SPORT.CPE Logo" class="w-9 h-9 object-contain shrink-0"><span>SPORT.CPE</span></a>
+                <span class="bg-[#3b82f6] text-white text-[11px] font-bold px-3 py-1 rounded-full">Admin Portal</span>
+                <span class="hidden sm:inline-flex items-center gap-1.5 bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold px-2.5 py-0.5 rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    Connected: MySQL (sport_cpe_db)
+                </span>
+            </div>
+
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-2.5 text-xs text-slate-300">
+                    <span id="admin-header-avatar" class="w-8 h-8 rounded-full bg-slate-700 font-bold text-white flex items-center justify-center text-xs">AD</span>
+                    <div class="text-left">
+                        <div id="admin-header-name" class="font-bold text-white leading-tight">Admin SportCPE</div>
+                        <div id="admin-header-email" class="text-[10px] text-slate-400 leading-tight">(admin@sportcpe.com)</div>
+                    </div>
+                </div>
+
+                <a href="index.html" class="text-[#ff6b00] hover:underline font-bold text-sm flex items-center gap-1.5">
+                    Back to Home →
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-[1280px] w-full mx-auto px-6 py-8 flex-1 space-y-8">
+        <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-2">
+            <div>
+                <h1 class="text-3xl font-black text-slate-900 tracking-tight">ADMIN DASHBOARD</h1>
+                <p class="text-xs text-slate-500 mt-1">ระบบจัดการฐานข้อมูล <code class="bg-slate-200/80 text-slate-800 px-1.5 py-0.5 rounded font-bold">sport_cpe_db</code> แบบ Real-time (เชื่อมตรงกับตาราง <code class="text-slate-700">orders</code>, <code class="text-slate-700">order_items</code>, <code class="text-slate-700">products</code>, <code class="text-slate-700">promotion_products</code>, <code class="text-slate-700">users</code>)</p>
+            </div>
+        </div>
+
+        <!-- Point 3: 4 Live Database KPI Metric Cards (100% Dynamic from sport_cpe_db) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- Card 1: Total Revenue -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#dcfce7] text-[#166534] text-xl font-bold flex items-center justify-center shrink-0">💰</div>
+                <div class="min-w-0">
+                    <div class="text-xs font-medium text-slate-500">Total Revenue (ยอดขายสุทธิ)</div>
+                    <div id="kpi-revenue" class="text-2xl font-black text-slate-900 truncate">กำลังโหลด...</div>
+                    <div id="kpi-revenue-sub" class="text-[10px] text-emerald-700 font-semibold mt-0.5 truncate">จากตาราง orders (ไม่รวมที่ยกเลิก)</div>
+                </div>
+            </div>
+
+            <!-- Card 2: Total Orders -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#dbeafe] text-[#1e40af] text-xl font-bold flex items-center justify-center shrink-0">📦</div>
+                <div class="min-w-0">
+                    <div class="text-xs font-medium text-slate-500">Total Orders (คำสั่งซื้อทั้งหมด)</div>
+                    <div id="kpi-orders" class="text-2xl font-black text-slate-900 truncate">กำลังโหลด...</div>
+                    <div id="kpi-orders-sub" class="text-[10px] text-blue-700 font-semibold mt-0.5 truncate">จากตาราง orders ในฐานข้อมูล</div>
+                </div>
+            </div>
+
+            <!-- Card 3: Catalog Products -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#f3e8ff] text-[#7e22ce] text-xl font-bold flex items-center justify-center shrink-0">🏷️</div>
+                <div class="min-w-0">
+                    <div class="text-xs font-medium text-slate-500">Catalog Products (สินค้าในคลัง)</div>
+                    <div id="kpi-products" class="text-2xl font-black text-slate-900 truncate">กำลังโหลด...</div>
+                    <div id="kpi-products-sub" class="text-[10px] text-purple-700 font-semibold mt-0.5 truncate">จากตาราง products ในฐานข้อมูล</div>
+                </div>
+            </div>
+
+            <!-- Card 4: Registered Members -->
+            <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-sm flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-[#ffedd5] text-[#c2410c] text-xl font-bold flex items-center justify-center shrink-0">👥</div>
+                <div class="min-w-0">
+                    <div class="text-xs font-medium text-slate-500">Registered Members (สมาชิก)</div>
+                    <div id="kpi-members" class="text-2xl font-black text-slate-900 truncate">กำลังโหลด...</div>
+                    <div id="kpi-members-sub" class="text-[10px] text-orange-700 font-semibold mt-0.5 truncate">จากตาราง users ในฐานข้อมูล</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Point 1 & Point 2: 2 Large Expanded Side-by-Side Management Blocks (50% / 50%) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-7 items-stretch">
+
+            <!-- Point 1: Expanded Low Stock Alert & Additive Restock Manager (Table: products) -->
+            <div class="lg:col-span-6 bg-white rounded-2xl border border-orange-200 overflow-hidden shadow-sm flex flex-col">
+                <div class="bg-[#fff7ed] px-5 py-4 border-b border-orange-200 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">⚠️</span>
+                        <div>
+                            <h2 class="font-extrabold text-slate-900 text-sm">Low Stock Alert (Stock ≤ 10) &amp; ระบบเติมสต็อก</h2>
+                            <p class="text-[11px] text-slate-600">ดึงข้อมูลสดจากตาราง <code class="font-bold text-orange-800">products</code> • กรอกจำนวนที่ต้องการเพิ่มแล้วกด <strong>+ เติมสต็อก</strong> เพื่อบวกเพิ่มเข้าฐานข้อมูลจริง</p>
+                        </div>
+                    </div>
+                    <span id="low-stock-count-badge" class="bg-[#ea580c] text-white px-3 py-1 rounded-full text-xs font-extrabold shadow-xs">
+                        0 รายการ
+                    </span>
+                </div>
+
+                <!-- Filter & Search Bar inside Low Stock Card -->
+                <div class="px-5 py-3 bg-orange-50/40 border-b border-orange-100 flex flex-wrap items-center justify-between gap-2 text-xs">
+                    <div class="flex items-center gap-1.5">
+                        <button id="btn-filter-low" onclick="setStockFilterMode('low')" class="px-3 py-1.5 rounded-lg font-bold text-[11px] bg-[#ea580c] text-white shadow-xs transition">
+                            เฉพาะสินค้าใกล้หมด (Stock ≤ 10)
+                        </button>
+                        <button id="btn-filter-all" onclick="setStockFilterMode('all')" class="px-3 py-1.5 rounded-lg font-bold text-[11px] bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition">
+                            ดูสินค้าทั้งหมด (128)
+                        </button>
+                    </div>
+                    <div class="relative flex-1 min-w-[180px]">
+                        <input
+                            type="text"
+                            id="stock-search-input"
+                            oninput="renderLowStockSection()"
+                            placeholder="🔍 ค้นหาชื่อสินค้า / รหัส #ID..."
+                            class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-3 py-1.5 text-[11px] text-slate-800 focus:outline-none focus:border-[#ea580c]"
+                        >
+                    </div>
+                </div>
+
+                <!-- Scrollable Low Stock List -->
+                <div id="low-stock-list-container" class="p-4 space-y-2.5 max-h-[420px] overflow-y-auto admin-scroll flex-1 divide-y divide-slate-100">
+                    <!-- Populated dynamically from sport_cpe_db.products -->
+                </div>
+            </div>
+
+            <!-- Point 2: Expanded Buy 2 Get 1 Free Manager with Selection + Confirmation Box (Table: promotion_products) -->
+            <div class="lg:col-span-6 bg-white rounded-2xl border border-green-200 overflow-hidden shadow-sm flex flex-col">
+                <div class="bg-[#dcfce7] px-5 py-4 border-b border-green-200 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base">🎁</span>
+                        <div>
+                            <h2 class="font-extrabold text-[#166534] text-sm">จัดการสินค้าโปรโมชัน Buy 2 Get 1 Free</h2>
+                            <p class="text-[11px] text-green-900">ตาราง <code class="font-bold">promotion_products (promo_id = 3)</code> • ซื้อชิ้นเดียวกันครบทุกๆ 2 ชิ้น แถมฟรี 1 ชิ้นอัตโนมัติ</p>
+                        </div>
+                    </div>
+                    <span id="promo-count-badge" class="bg-[#16a34a] text-white px-3 py-1 rounded-full text-xs font-extrabold shadow-xs">
+                        0 รายการ
+                    </span>
+                </div>
+
+                <div class="p-5 text-xs space-y-4 flex-1 flex flex-col">
+                    <!-- Step 1: Select a Product to Add to Promotion -->
+                    <div class="bg-slate-50 border border-slate-200 rounded-xl p-3.5 space-y-2.5">
+                        <div class="font-bold text-slate-800 flex items-center justify-between">
+                            <span>1️⃣ เลือกสินค้าที่ต้องการนำมาจัดโปรโมชัน Buy 2 Get 1 Free:</span>
+                            <span class="text-[10px] font-medium text-slate-500">เลือกจากตาราง products</span>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-12 gap-2">
+                            <select id="admin-promo-category-filter" onchange="populatePromoSelectDropdown()" class="sm:col-span-4 border border-slate-300 rounded-lg px-2.5 py-2 text-xs bg-white font-semibold text-slate-700 focus:outline-none focus:border-[#16a34a]">
+                                <option value="ALL">ทุกหมวดหมู่ (All)</option>
+                                <option value="Running">Running (วิ่ง)</option>
+                                <option value="Badminton">Badminton (แบดมินตัน)</option>
+                                <option value="Basketball">Basketball (บาสเกตบอล)</option>
+                                <option value="Football">Football (ฟุตบอล)</option>
+                                <option value="Swim">Swim (ว่ายน้ำ)</option>
+                                <option value="Fitness">Fitness (ฟิตเนส)</option>
+                                <option value="Camping">Camping (แคมป์ปิ้ง)</option>
+                                <option value="Volleyball">Volleyball (วอลเลย์บอล)</option>
+                            </select>
+
+                            <select id="admin-add-promo-select" onchange="previewSelectedPromoProduct()" class="sm:col-span-5 border border-slate-300 rounded-lg px-2.5 py-2 text-xs bg-white text-slate-900 font-medium focus:outline-none focus:border-[#16a34a]">
+                                <!-- Populated with non-eligible products -->
+                            </select>
+
+                            <button type="button" onclick="previewSelectedPromoProduct(true)" class="sm:col-span-3 bg-[#0b1329] hover:bg-slate-800 text-white font-bold px-3 py-2 rounded-lg text-xs transition shadow-xs">
+                                เลือกรายการนี้ →
+                            </button>
+                        </div>
+
+                        <!-- Step 2: Confirmation Box (Shown when a product is selected for promotion) -->
+                        <div id="promo-confirm-panel" class="hidden mt-3 bg-[#f0fdf4] border-2 border-[#22c55e] rounded-xl p-3.5 transition-all">
+                            <div class="flex items-center justify-between gap-3">
+                                <div class="flex items-center gap-3 min-w-0">
+                                    <img id="confirm-promo-img" src="" alt="" class="w-12 h-12 rounded-lg bg-white border border-green-200 object-contain p-1 shrink-0">
+                                    <div class="min-w-0">
+                                        <div class="text-[11px] font-extrabold text-[#15803d]">2️⃣ ยืนยันการเพิ่มสินค้าเข้าโปรโมชัน Buy 2 Get 1 Free หรือไม่?</div>
+                                        <div id="confirm-promo-title" class="font-bold text-slate-900 text-xs truncate mt-0.5"></div>
+                                        <div id="confirm-promo-meta" class="text-[11px] text-slate-600"></div>
+                                    </div>
+                                </div>
+                                <div class="flex items-center gap-2 shrink-0">
+                                    <button type="button" onclick="confirmAddPromoProduct()" class="bg-[#16a34a] hover:bg-green-700 text-white font-extrabold px-3.5 py-2 rounded-lg text-xs shadow-sm transition">
+                                        ✓ ยืนยันจัดโปร
+                                    </button>
+                                    <button type="button" onclick="cancelPromoPreview()" class="bg-white hover:bg-slate-100 text-slate-600 border border-slate-300 font-bold px-2.5 py-2 rounded-lg text-xs transition">
+                                        ยกเลิก
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Active Buy 2 Get 1 Free Products List (Scrollable) -->
+                    <div class="flex items-center justify-between pt-1">
+                        <span class="font-bold text-slate-800 text-xs">📋 รายการสินค้าที่ร่วมโปร Buy 2 Get 1 Free ปัจจุบัน (ดึงจากฐานข้อมูลจริง):</span>
+                    </div>
+                    <div id="admin-promo-products-list" class="max-h-[310px] overflow-y-auto admin-scroll divide-y divide-slate-100 border border-slate-200 rounded-xl px-3 py-1 bg-white flex-1">
+                        <!-- Populated dynamically from sport_cpe_db.promotion_products -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Point 4: Full-Width Recent Customer Orders Table (Table: orders & order_items) -->
+        <div class="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
+            <div class="p-5 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-3">
+                <div>
+                    <div class="flex items-center gap-2.5">
+                        <h2 class="font-extrabold text-slate-900 text-base">📦 Recent Customer Orders (ตาราง orders &amp; order_items)</h2>
+                        <span id="orders-table-count-badge" class="bg-blue-50 text-blue-700 border border-blue-200 font-bold px-2.5 py-0.5 rounded-full text-xs">0 รายการ</span>
+                    </div>
+                    <p class="text-xs text-slate-500 mt-0.5">แสดงข้อมูลคำสั่งซื้อจริงทั้งหมดจากฐานข้อมูล <code class="font-bold text-slate-700">sport_cpe_db.orders</code> • เลือกเปลี่ยนสถานะในช่อง <strong>Status</strong> ได้โดยตรง หรือกด <strong>ดูสินค้า</strong> เพื่อดูตาราง <code class="font-bold text-slate-700">order_items</code></p>
+                </div>
+
+                <!-- Order Status Filter Pills -->
+                <div class="flex flex-wrap items-center gap-1.5 text-xs">
+                    <button onclick="setOrderFilter('ALL')" id="ord-filter-ALL" class="px-3 py-1.5 rounded-lg font-bold bg-[#0b1329] text-white text-[11px] transition">ทั้งหมด</button>
+                    <button onclick="setOrderFilter('Pending')" id="ord-filter-Pending" class="px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 text-[11px] transition">Pending</button>
+                    <button onclick="setOrderFilter('Paid')" id="ord-filter-Paid" class="px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 text-[11px] transition">Paid</button>
+                    <button onclick="setOrderFilter('Shipped')" id="ord-filter-Shipped" class="px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 text-[11px] transition">Shipped</button>
+                    <button onclick="setOrderFilter('Delivered')" id="ord-filter-Delivered" class="px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 text-[11px] transition">Delivered</button>
+                    <button onclick="setOrderFilter('Cancelled')" id="ord-filter-Cancelled" class="px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 text-[11px] transition">Cancelled</button>
+                </div>
+            </div>
+
+            <div class="overflow-x-auto max-h-[540px] overflow-y-auto admin-scroll">
+                <table class="w-full text-left text-xs">
+                    <thead class="bg-slate-50 text-slate-600 font-bold border-b border-slate-200 sticky top-0 z-10">
+                        <tr>
+                            <th class="p-3.5">Order ID</th>
+                            <th class="p-3.5">Customer (ตาราง users)</th>
+                            <th class="p-3.5">Order Date</th>
+                            <th class="p-3.5">Promo / ส่วนลด</th>
+                            <th class="p-3.5">Total Amount</th>
+                            <th class="p-3.5">Status (เลือกเปลี่ยนสถานะได้ทันที)</th>
+                            <th class="p-3.5 text-right">รายละเอียดสินค้า (order_items)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-orders-tbody" class="divide-y divide-slate-100 text-slate-700">
+                        <!-- Dynamically populated from sport_cpe_db.orders -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/products-data.js"></script>
+    <script src="js/app.js"></script>
+    <script>
+        let currentStockFilterMode = 'low'; // 'low' (<=10) or 'all'
+        let currentOrderStatusFilter = 'ALL';
+        let pendingConfirmProductId = null;
+        const expandedOrderIds = new Set();
+
+        function getStatusSelectClass(status) {
+            if (status === 'Cancelled') return 'bg-[#fee2e2] text-[#b91c1c] border-red-300';
+            if (status === 'Pending') return 'bg-[#ffedd5] text-[#c2410c] border-orange-300';
+            if (status === 'Paid') return 'bg-[#dbeafe] text-[#1d4ed8] border-blue-300';
+            if (status === 'Shipped') return 'bg-[#e0e7ff] text-[#4338ca] border-indigo-300';
+            return 'bg-[#dcfce7] text-[#15803d] border-green-300';
+        }
+
+        function getStockBadgeHtml(stock) {
+            if (stock <= 0) {
+                return `<span class="bg-red-700 text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">หมดสต็อก (0 left)</span>`;
+            }
+            if (stock <= 4) {
+                return `<span class="bg-[#ef4444] text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">${stock} left</span>`;
+            }
+            if (stock <= 7) {
+                return `<span class="bg-[#f97316] text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">${stock} left</span>`;
+            }
+            if (stock <= 10) {
+                return `<span class="bg-[#eab308] text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">${stock} left</span>`;
+            }
+            return `<span class="bg-[#16a34a] text-white text-[11px] font-extrabold px-2.5 py-0.5 rounded-full">${stock} left</span>`;
+        }
+
+        // ---------------- 1. LOW STOCK ALERT & ADDITIVE RESTOCK ----------------
+        function setStockFilterMode(mode) {
+            currentStockFilterMode = mode;
+            const btnLow = document.getElementById('btn-filter-low');
+            const btnAll = document.getElementById('btn-filter-all');
+            if (mode === 'low') {
+                btnLow.className = 'px-3 py-1.5 rounded-lg font-bold text-[11px] bg-[#ea580c] text-white shadow-xs transition';
+                btnAll.className = 'px-3 py-1.5 rounded-lg font-bold text-[11px] bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition';
+            } else {
+                btnAll.className = 'px-3 py-1.5 rounded-lg font-bold text-[11px] bg-[#ea580c] text-white shadow-xs transition';
+                btnLow.className = 'px-3 py-1.5 rounded-lg font-bold text-[11px] bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 transition';
+            }
+            renderLowStockSection();
+        }
+
+        function handleAdditiveRestock(productId) {
+            const p = PRODUCTS_DB.find(x => x.id === Number(productId));
+            const inputEl = document.getElementById('restock-input-' + productId);
+            const rawVal = inputEl ? Number(inputEl.value) : 10;
+            if (!rawVal || rawVal <= 0 || isNaN(rawVal)) {
+                STATE.showToast('กรุณากรอกจำนวนสต็อกที่ต้องการเพิ่มให้มากกว่า 0 ชิ้น', 'warn');
+                return;
+            }
+            const addQty = Math.floor(rawVal);
+            STATE.addProductStock(productId, addQty, p ? p.name : ('#' + productId));
+            renderAdminDashboard();
+        }
+
+        function renderLowStockSection() {
+            const searchQ = (document.getElementById('stock-search-input')?.value || '').trim().toLowerCase();
+            const allWithLiveStock = PRODUCTS_DB.map(p => ({
+                ...p,
+                liveStock: STATE.getProductStock(p.id)
+            }));
+
+            const lowStockItems = allWithLiveStock
+                .filter(p => p.liveStock <= 10)
+                .sort((a, b) => a.liveStock - b.liveStock || a.id - b.id);
+
+            document.getElementById('low-stock-count-badge').textContent = lowStockItems.length + ' รายการ (Stock ≤ 10)';
+
+            let listToRender = currentStockFilterMode === 'low'
+                ? lowStockItems
+                : [...allWithLiveStock].sort((a, b) => a.liveStock - b.liveStock || a.id - b.id);
+
+            if (searchQ) {
+                listToRender = listToRender.filter(p =>
+                    p.name.toLowerCase().includes(searchQ) ||
+                    p.brand.toLowerCase().includes(searchQ) ||
+                    p.category_en.toLowerCase().includes(searchQ) ||
+                    String(p.id) === searchQ.replace('#', '')
+                );
+            }
+
+            const container = document.getElementById('low-stock-list-container');
+            if (listToRender.length === 0) {
+                container.innerHTML = `
+                    <div class="py-12 text-center text-slate-500 text-xs">
+                        <div class="text-2xl mb-1.5">✅</div>
+                        <div class="font-bold text-slate-700">ไม่พบรายการสินค้าที่มีสต็อกต่ำกว่าหรือเท่ากับ 10 ชิ้น</div>
+                        <div class="text-[11px] text-slate-400 mt-0.5">คุณสามารถกดปุ่ม "ดูสินค้าทั้งหมด (128)" ด้านบนเพื่อเพิ่มสต็อกสินค้าชิ้นใดก็ได้</div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = listToRender.map((p, idx) => `
+                <div class="py-2.5 first:pt-0 last:pb-0 flex items-center justify-between gap-3 hover:bg-orange-50/30 rounded-xl px-2 transition">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <img src="${p.image}" alt="${p.name}" class="w-10 h-10 rounded-lg bg-slate-100 border border-slate-200 object-contain p-1 shrink-0">
+                        <div class="min-w-0">
+                            <div class="flex items-center gap-1.5 flex-wrap">
+                                <span class="text-[11px] font-bold text-slate-400">#${p.id}</span>
+                                <a href="product-detail.html?id=${p.id}" class="font-bold text-slate-900 text-xs hover:text-[#ff6b00] truncate">${p.name}</a>
+                                ${getStockBadgeHtml(p.liveStock)}
+                            </div>
+                            <div class="text-[11px] text-slate-500 mt-0.5">
+                                หมวดหมู่: <span class="font-semibold text-slate-700">${p.category_en}</span> • ราคา: ฿${p.price.toLocaleString()}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center gap-1.5 shrink-0">
+                        <div class="flex items-center bg-white border border-slate-300 rounded-lg overflow-hidden shadow-2xs">
+                            <span class="px-2 text-[11px] font-bold text-slate-500 bg-slate-50 border-r border-slate-200 py-1.5">+</span>
+                            <input
+                                type="number"
+                                id="restock-input-${p.id}"
+                                min="1"
+                                max="999"
+                                value="10"
+                                title="กรอกจำนวนชิ้นที่ต้องการบวกเพิ่มเข้าสต็อก"
+                                class="w-14 px-2 py-1.5 text-center font-extrabold text-slate-900 text-xs focus:outline-none"
+                            >
+                        </div>
+                        <button
+                            type="button"
+                            onclick="handleAdditiveRestock(${p.id})"
+                            class="bg-[#0b1329] hover:bg-[#ea580c] text-white font-extrabold px-3 py-1.5 rounded-lg text-[11px] shadow-xs transition whitespace-nowrap"
+                        >
+                            + Restock
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ---------------- 2. BUY 2 GET 1 FREE PROMOTION MANAGER ----------------
+        function populatePromoSelectDropdown() {
+            const catFilter = document.getElementById('admin-promo-category-filter')?.value || 'ALL';
+            const eligibleIds = STATE.getBuy2Get1ProductIds();
+            const sel = document.getElementById('admin-add-promo-select');
+            if (!sel) return;
+
+            const availableProducts = PRODUCTS_DB.filter(p => {
+                if (eligibleIds.includes(p.id)) return false; // Only show items not yet in promo
+                if (catFilter !== 'ALL' && p.category_en !== catFilter) return false;
+                return true;
+            });
+
+            if (availableProducts.length === 0) {
+                sel.innerHTML = `<option value="">-- สินค้าในหมวดนี้ร่วมโปรครบทุกชิ้นแล้ว --</option>`;
+                cancelPromoPreview();
+                return;
+            }
+
+            sel.innerHTML = `<option value="">-- คลิกเพื่อเลือกสินค้าที่ต้องการจัดโปร (${availableProducts.length} รายการ) --</option>` +
+                availableProducts.map(p => `
+                    <option value="${p.id}">#${p.id} [${p.category_en}] ${p.name} (฿${p.price.toLocaleString()})</option>
+                `).join('');
+        }
+
+        function previewSelectedPromoProduct(showWarnIfEmpty = false) {
+            const sel = document.getElementById('admin-add-promo-select');
+            const panel = document.getElementById('promo-confirm-panel');
+            if (!sel || !sel.value) {
+                if (showWarnIfEmpty) {
+                    STATE.showToast('กรุณาคลิกเลือกสินค้าจากแถบตัวเลือกก่อนกดเลือกรายการ', 'warn');
+                }
+                panel.classList.add('hidden');
+                pendingConfirmProductId = null;
+                return;
+            }
+            const pid = Number(sel.value);
+            const p = PRODUCTS_DB.find(x => x.id === pid);
+            if (!p) return;
+
+            pendingConfirmProductId = pid;
+            document.getElementById('confirm-promo-img').src = p.image;
+            document.getElementById('confirm-promo-title').textContent = `#${p.id} ${p.name}`;
+            document.getElementById('confirm-promo-meta').textContent = `แบรนด์: ${p.brand} | หมวดหมู่: ${p.category_en} | ราคาปกติ: ฿${p.price.toLocaleString()} (สต็อก: ${STATE.getProductStock(p.id)} ชิ้น)`;
+            panel.classList.remove('hidden');
+        }
+
+        function cancelPromoPreview() {
+            pendingConfirmProductId = null;
+            const panel = document.getElementById('promo-confirm-panel');
+            if (panel) panel.classList.add('hidden');
+            const sel = document.getElementById('admin-add-promo-select');
+            if (sel) sel.value = '';
+        }
+
+        function confirmAddPromoProduct() {
+            if (!pendingConfirmProductId) return;
+            const p = PRODUCTS_DB.find(x => x.id === Number(pendingConfirmProductId));
+            STATE.addBuy2Get1Product(pendingConfirmProductId);
+            cancelPromoPreview();
+            renderAdminDashboard();
+            STATE.showToast('ยืนยันเพิ่ม "' + (p ? p.name : ('#' + pendingConfirmProductId)) + '" เข้าสู่โปรโมชัน Buy 2 Get 1 Free ลงในฐานข้อมูลเรียบร้อยแล้ว!');
+        }
+
+        function adminRemovePromoItem(productId) {
+            const p = PRODUCTS_DB.find(x => x.id === Number(productId));
+            STATE.removeBuy2Get1Product(productId);
+            renderAdminDashboard();
+            STATE.showToast('เอา "' + (p ? p.name : ('#' + productId)) + '" ออกจากโปรโมชัน Buy 2 Get 1 Free ในฐานข้อมูลเรียบร้อยแล้ว!', 'warn');
+        }
+
+        function renderPromoManagerSection() {
+            const eligibleIds = STATE.getBuy2Get1ProductIds();
+            document.getElementById('promo-count-badge').textContent = eligibleIds.length + ' รายการที่จัดโปร';
+
+            const promoListEl = document.getElementById('admin-promo-products-list');
+            if (eligibleIds.length === 0) {
+                promoListEl.innerHTML = `
+                    <div class="py-10 text-center text-slate-400 text-xs">
+                        ยังไม่มีสินค้าที่เข้าร่วมโปรโมชัน Buy 2 Get 1 Free ในตาราง promotion_products
+                    </div>
+                `;
+            } else {
+                promoListEl.innerHTML = eligibleIds.map(id => {
+                    const p = PRODUCTS_DB.find(x => x.id === Number(id));
+                    if (!p) return '';
+                    return `
+                        <div class="py-2.5 flex items-center justify-between gap-3 hover:bg-green-50/40 rounded-lg px-2 transition">
+                            <div class="flex items-center gap-3 min-w-0">
+                                <img src="${p.image}" alt="${p.name}" class="w-10 h-10 rounded-lg bg-slate-50 border border-slate-200 object-contain p-1 shrink-0">
+                                <div class="min-w-0">
+                                    <div class="flex items-center gap-1.5">
+                                        <span class="text-[11px] font-bold text-slate-400">#${p.id}</span>
+                                        <a href="product-detail.html?id=${p.id}" class="font-bold text-slate-900 text-xs hover:text-[#16a34a] truncate">${p.name}</a>
+                                    </div>
+                                    <div class="text-[11px] text-slate-500 mt-0.5">
+                                        หมวดหมู่: <span class="font-semibold text-slate-700">${p.category_en}</span> • ฿${p.price.toLocaleString()}
+                                        <span class="inline-block bg-[#dcfce7] text-[#166534] font-bold px-2 py-0.2 rounded-full text-[10px] ml-1">🎁 ซื้อ 2 แถม 1</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                type="button"
+                                onclick="adminRemovePromoItem(${p.id})"
+                                class="px-3 py-1.5 rounded-lg bg-red-50 hover:bg-red-100 text-red-600 hover:text-red-700 font-extrabold text-[11px] shrink-0 transition"
+                            >
+                                🗑️ เอาออก
+                            </button>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            populatePromoSelectDropdown();
+        }
+
+        // ---------------- 3 & 4. KPI CARDS & ORDERS TABLE (WITH DIRECT STATUS SELECTOR) ----------------
+        function setOrderFilter(status) {
+            currentOrderStatusFilter = status;
+            ['ALL', 'Pending', 'Paid', 'Shipped', 'Delivered', 'Cancelled'].forEach(st => {
+                const btn = document.getElementById('ord-filter-' + st);
+                if (!btn) return;
+                if (st === status) {
+                    btn.className = 'px-3 py-1.5 rounded-lg font-bold bg-[#0b1329] text-white text-[11px] transition shadow-2xs';
+                } else {
+                    btn.className = 'px-3 py-1.5 rounded-lg font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 text-[11px] transition';
+                }
+            });
+            renderOrdersTableSection();
+        }
+
+        function handleDirectOrderStatusChange(orderId, newStatus) {
+            const orders = STATE.getAllOrders();
+            const order = orders.find(o => o.id === orderId || String(o.order_id) === String(orderId).replace('#', ''));
+            if (!order) return;
+            const prevStatus = order.status;
+            order.status = newStatus;
+            STATE.saveAllOrders(orders);
+
+            if (typeof fetch === 'function') {
+                fetch('/api/db/admin/order-status', {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ order_id: orderId, status: newStatus })
+                }).catch(() => {});
+            }
+
+            renderAdminDashboard();
+            STATE.showToast(`อัปเดตสถานะคำสั่งซื้อ ${order.id} จาก "${prevStatus}" ➔ "${newStatus}" ลงในตาราง orders เรียบร้อยแล้ว!`);
+        }
+
+        function toggleOrderItemsRow(orderId) {
+            const cleanId = String(orderId).replace('#', '');
+            if (expandedOrderIds.has(cleanId)) {
+                expandedOrderIds.delete(cleanId);
+            } else {
+                expandedOrderIds.add(cleanId);
+            }
+            renderOrdersTableSection();
+        }
+
+        function renderOrdersTableSection() {
+            const allOrders = STATE.getAllOrders();
+            const filteredOrders = currentOrderStatusFilter === 'ALL'
+                ? allOrders
+                : allOrders.filter(o => o.status === currentOrderStatusFilter);
+
+            document.getElementById('orders-table-count-badge').textContent =
+                currentOrderStatusFilter === 'ALL'
+                    ? `ทั้งหมด ${allOrders.length} รายการในฐานข้อมูล`
+                    : `${filteredOrders.length} รายการ (สถานะ ${currentOrderStatusFilter})`;
+
+            const tbody = document.getElementById('admin-orders-tbody');
+            if (filteredOrders.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" class="p-10 text-center text-slate-400 text-xs">
+                            ไม่พบรายการคำสั่งซื้อในสถานะ "${currentOrderStatusFilter}"
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            const allUsers = STATE.getUsers();
+            tbody.innerHTML = filteredOrders.map(o => {
+                const cleanId = String(o.order_id || String(o.id).replace('#', ''));
+                const isExpanded = expandedOrderIds.has(cleanId);
+                const matchedUser = allUsers.find(u => Number(u.user_id) === Number(o.user_id));
+                const custName = matchedUser ? matchedUser.name : (o.customer || ('User #' + o.user_id));
+                const custEmail = matchedUser ? matchedUser.email : (o.user_email || '');
+                const items = Array.isArray(o.items) ? o.items : [];
+                const itemCount = items.reduce((sum, i) => sum + Number(i.qty || i.quantity || 1), 0);
+                const freeCount = items.reduce((sum, i) => sum + Number(i.free_qty || 0), 0);
+                const discountAmt = Number(o.discount || 0);
+                const promoCodeText = o.discountCode || o.discountLabel || 'ไม่มี';
+
+                const itemsDetailHtml = items.map(it => {
+                    const pObj = PRODUCTS_DB.find(x => x.id === Number(it.product_id));
+                    const img = pObj ? pObj.image : 'images/figma/prod_astrox_vertical.png';
+                    const qty = Number(it.qty || it.quantity || 1);
+                    const freeQty = Number(it.free_qty || 0);
+                    const price = Number(it.price || 0);
+                    return `
+                        <div class="flex items-center justify-between py-2 border-b border-slate-200/70 last:border-0 text-xs">
+                            <div class="flex items-center gap-3">
+                                <img src="${img}" alt="" class="w-9 h-9 rounded-lg bg-white border border-slate-200 object-contain p-1">
+                                <div>
+                                    <div class="font-bold text-slate-900">#${it.product_id} ${it.name}</div>
+                                    <div class="text-[11px] text-slate-500">หมวดหมู่: ${it.category || (pObj ? pObj.category_en : 'Sports')} • ฿${price.toLocaleString()} × ${qty} ชิ้น</div>
+                                </div>
+                                ${freeQty > 0 ? `<span class="bg-[#dcfce7] text-[#166534] font-bold px-2.5 py-0.5 rounded-full text-[10px]">🎁 แถมฟรี +${freeQty} ชิ้น (Buy 2 Get 1 Free)</span>` : ''}
+                            </div>
+                            <div class="font-extrabold text-slate-900">฿${(price * qty).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>
+                        </div>
+                    `;
+                }).join('');
+
+                return `
+                    <tr class="hover:bg-slate-50/90 transition ${isExpanded ? 'bg-blue-50/30' : ''}">
+                        <td class="p-3.5 font-extrabold text-slate-900 whitespace-nowrap">
+                            ${o.id}
+                            <div class="text-[10px] font-medium text-slate-400">user_id: ${o.user_id || '-'}</div>
+                        </td>
+                        <td class="p-3.5">
+                            <div class="font-bold text-slate-900">${custName}</div>
+                            ${custEmail ? `<div class="text-[11px] text-slate-400">${custEmail}</div>` : ''}
+                        </td>
+                        <td class="p-3.5 text-slate-600 whitespace-nowrap">${o.date}</td>
+                        <td class="p-3.5">
+                            ${discountAmt > 0
+                                ? `<span class="inline-block bg-green-50 text-green-800 border border-green-200 font-bold px-2 py-0.5 rounded text-[11px]">${promoCodeText}</span>
+                                   <div class="text-[11px] text-rose-600 font-bold mt-0.5">-฿${discountAmt.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</div>`
+                                : `<span class="text-slate-400 text-[11px]">ไม่มีส่วนลด</span>`
+                            }
+                        </td>
+                        <td class="p-3.5 font-black text-slate-900 text-sm whitespace-nowrap">
+                            ฿${Number(o.total).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                            <div class="text-[10px] font-normal text-slate-400">Subtotal: ฿${Number(o.subtotal || o.total).toLocaleString()}</div>
+                        </td>
+                        <td class="p-3.5 whitespace-nowrap">
+                            <select
+                                onchange="handleDirectOrderStatusChange('${o.id}', this.value)"
+                                class="${getStatusSelectClass(o.status)} border font-extrabold text-xs rounded-full px-3 py-1.5 cursor-pointer focus:outline-none shadow-2xs transition"
+                                title="คลิกเพื่อเลือกเปลี่ยนสถานะคำสั่งซื้อในฐานข้อมูล"
+                            >
+                                <option value="Pending" ${o.status === 'Pending' ? 'selected' : ''}>● Pending (รอดำเนินการ)</option>
+                                <option value="Paid" ${o.status === 'Paid' ? 'selected' : ''}>● Paid (ชำระเงินแล้ว)</option>
+                                <option value="Shipped" ${o.status === 'Shipped' ? 'selected' : ''}>● Shipped (จัดส่งแล้ว)</option>
+                                <option value="Delivered" ${o.status === 'Delivered' ? 'selected' : ''}>● Delivered (สำเร็จ)</option>
+                                <option value="Cancelled" ${o.status === 'Cancelled' ? 'selected' : ''}>● Cancelled (ยกเลิก)</option>
+                            </select>
+                        </td>
+                        <td class="p-3.5 text-right whitespace-nowrap">
+                            <button
+                                type="button"
+                                onclick="toggleOrderItemsRow('${cleanId}')"
+                                class="px-3 py-1.5 rounded-lg border ${isExpanded ? 'bg-[#0b1329] text-white border-[#0b1329]' : 'bg-white hover:bg-slate-100 text-slate-700 border-slate-300'} font-bold text-[11px] transition shadow-2xs"
+                            >
+                                🔍 ดูสินค้า (${itemCount}${freeCount > 0 ? `+ฟรี ${freeCount}` : ''}) ${isExpanded ? '▲' : '▼'}
+                            </button>
+                        </td>
+                    </tr>
+                    ${isExpanded ? `
+                    <tr class="bg-slate-50/90 border-b border-slate-200">
+                        <td colspan="7" class="px-6 py-4">
+                            <div class="bg-white rounded-xl border border-slate-200 p-4 shadow-2xs space-y-2">
+                                <div class="flex flex-wrap items-center justify-between gap-2 pb-2 border-b border-slate-100 text-xs">
+                                    <div class="font-extrabold text-slate-800">
+                                        📋 รายการสินค้าในคำสั่งซื้อ ${o.id} (ดึงจากตาราง <code class="text-blue-700">order_items</code>)
+                                    </div>
+                                    <div class="text-slate-600">
+                                        📍 <strong>ที่อยู่จัดส่ง (shipping_address):</strong> ${o.address || '-'}
+                                    </div>
+                                </div>
+                                <div class="divide-y divide-slate-100">
+                                    ${itemsDetailHtml || '<div class="text-slate-400 py-2">ไม่มีข้อมูลรายการสินค้า</div>'}
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    ` : ''}
+                `;
+            }).join('');
+        }
+
+        function renderAdminDashboard() {
+            // Update Admin Header from current user if logged in as admin
+            const curUser = STATE.getCurrentUser();
+            if (curUser) {
+                document.getElementById('admin-header-avatar').textContent = STATE.getInitials(curUser.name);
+                document.getElementById('admin-header-name').textContent = curUser.name;
+                document.getElementById('admin-header-email').textContent = '(' + curUser.email + ')';
+            }
+
+            const allOrders = STATE.getAllOrders();
+            const allUsers = STATE.getUsers();
+            const customers = allUsers.filter(u => u.role === 'customer');
+
+            // 1. Live KPI Card 1: Total Revenue from non-cancelled orders in sport_cpe_db.orders
+            const activeOrders = allOrders.filter(o => o.status !== 'Cancelled');
+            const cancelledOrders = allOrders.filter(o => o.status === 'Cancelled');
+            const totalRevenue = activeOrders.reduce((sum, o) => sum + Number(o.total || 0), 0);
+
+            document.getElementById('kpi-revenue').textContent =
+                '฿' + totalRevenue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            document.getElementById('kpi-revenue-sub').textContent =
+                `คำนวณสดจาก ${activeOrders.length} ออเดอร์ปกติ (ยกเลิก ${cancelledOrders.length})`;
+
+            // 2. Live KPI Card 2: Total Orders from sport_cpe_db.orders
+            const pendingCnt = allOrders.filter(o => o.status === 'Pending').length;
+            const completedCnt = allOrders.filter(o => ['Paid', 'Shipped', 'Delivered'].includes(o.status)).length;
+            document.getElementById('kpi-orders').textContent = allOrders.length + ' Orders';
+            document.getElementById('kpi-orders-sub').textContent =
+                `Pending ${pendingCnt} | สำเร็จ/ส่งแล้ว ${completedCnt} | ยกเลิก ${cancelledOrders.length}`;
+
+            // 3. Live KPI Card 3: Catalog Products from sport_cpe_db.products
+            const catalogCount = (window.__LIVE_MYSQL_DB__ && window.__LIVE_MYSQL_DB__.catalogCount)
+                ? window.__LIVE_MYSQL_DB__.catalogCount
+                : PRODUCTS_DB.length;
+            const totalStockUnits = PRODUCTS_DB.reduce((sum, p) => sum + STATE.getProductStock(p.id), 0);
+            const lowStockCount = PRODUCTS_DB.filter(p => STATE.getProductStock(p.id) <= 10).length;
+            document.getElementById('kpi-products').textContent = catalogCount + ' Items';
+            document.getElementById('kpi-products-sub').textContent =
+                `สต็อกรวม ${totalStockUnits.toLocaleString()} ชิ้น | สต็อกต่ำ (≤10) ${lowStockCount} ชิ้น`;
+
+            // 4. Live KPI Card 4: Registered Members from sport_cpe_db.users
+            document.getElementById('kpi-members').textContent = customers.length + ' Customers';
+            document.getElementById('kpi-members-sub').textContent =
+                `จากตาราง users ทั้งหมด ${allUsers.length} บัญชี (Admin ${allUsers.length - customers.length})`;
+
+            // Render all 3 interactive database sections
+            renderLowStockSection();
+            renderPromoManagerSection();
+            renderOrdersTableSection();
+        }
+
+        document.addEventListener('DOMContentLoaded', renderAdminDashboard);
+    </script>
+</body>
+</html>
