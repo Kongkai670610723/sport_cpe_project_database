@@ -1,4 +1,4 @@
-# 📊 SPORT.CPE — Database Schema & 7-Step Relational Mapping Report
+# SPORT.CPE — Database Schema & 7-Step Relational Mapping Report
 ## เอกสารประกอบรายงานโครงงาน วิชา 261342 Database Systems
 ### ภาควิชาวิศวกรรมคอมพิวเตอร์ มหาวิทยาลัยเชียงใหม่ (CPE CMU)
 

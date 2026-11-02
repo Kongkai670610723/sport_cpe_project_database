@@ -1,4 +1,4 @@
-# 🏃 SPORT.CPE — E-Commerce Web Application (261342 Database Systems)
+# SPORT.CPE — E-Commerce Web Application (261342 Database Systems)
 
 > **วิชา**: 261342 Database Systems (ภาควิชาวิศวกรรมคอมพิวเตอร์ คณะวิศวกรรมศาสตร์ มหาวิทยาลัยเชียงใหม่)  
 > **กลุ่ม Term Project**: Project 2  
