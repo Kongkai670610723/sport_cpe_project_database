@@ -7,7 +7,7 @@
 > 2. ภูรินท์ อินทจักร์ (670610723)  
 > 3. วรภพ เกิดทองสุก (670610729)  
 > **ฐานข้อมูล**: MySQL 8.0 `sport_cpe_db` (7 ตารางระดับ 3NF: `categories`, `users`, `promotions`, `products`, `promotion_products`, `orders`, `order_items`)  
-> **Figma Prototype**: [SportsShop - Low-Fi Prototype (11 Frames)](https://www.figma.com/design/6ETgU6OQVA3jAn5g673JSr/SportsShop---Low-Fi-Prototype?node-id=0-1&t=gA0Xnw1otgDClhfp-1)  
+> **Figma Prototype**: [SportsShop - Low-Fi Prototype (11 Frames)](https://www.figma.com/design/6ETgU6OQVA3jAn5g673JSr/SportsShop---Low-Fi-Prototype?node-id=0-1&t=FEyHQze3KxA35akT-1)  
 
 ---
 
@@ -43,7 +43,7 @@ npm start
 | บทบาท (Role) | อีเมล (Email) | รหัสผ่าน (Password) | รายละเอียด |
 | :--- | :--- | :--- | :--- |
 | **Admin (ผู้ดูแลระบบ)** | `admin@sportcpe.com` | `password123` *(หรือ `admin123`)* | เข้าหน้า Admin Dashboard (`http://localhost:8000/admin.html`) เพื่อเติมสต็อก (`+ Restock`), จัดการสินค้าโปร `Buy 2 Get 1 Free`, และอัปเดตสถานะคำสั่งซื้อ |
-| **Customer (ลูกค้า)** | `kongkai@cpe.eng.cmu.ac.th` | `password123` | บัญชีลูกค้าตั้งต้นสำหรับทดสอบการเก็บคูปอง (`SAVE15`, `PERKS20`, `SPORT10`), ซื้อสินค้าโปร `Buy 2 Get 1 Free`, และสั่งซื้อสินค้าแบบ ACID Transaction |
+| **Customer (ลูกค้า)** | `w@gmail.com` | `123456` | บัญชีลูกค้าตั้งต้นสำหรับทดสอบการเก็บคูปอง (`SAVE15`, `PERKS20`, `SPORT10`), ซื้อสินค้าโปร `Buy 2 Get 1 Free`, และสั่งซื้อสินค้าแบบ ACID Transaction |
 
 ---
 
